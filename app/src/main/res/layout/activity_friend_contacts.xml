@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_view_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/head_title_view" />
+
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/edit_bg"
+        app:layout_constraintBottom_toBottomOf="@id/edit_search"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/edit_search"
+        app:layout_constraintTop_toTopOf="@id/edit_search" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_search"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_search"
+        app:layout_constraintHorizontal_bias=".07"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_search" />
+
+    <EditText
+        android:id="@+id/edit_search"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:hint="请输入手机号"
+        android:padding="8dp"
+        android:textColor="@color/base_edit_text"
+        android:textColorHint="@color/gray_edit_hint"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toRightOf="@+id/img_search"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cons_head" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/edit_search" />
+
+
+    <com.aohaitong.widget.LetterIndexView
+        android:id="@+id/vLetterIndex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        skin:enable="false"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        app:circle_color="#6685ec"
+        app:circle_padding="2dp"
+        app:draw_circle_action_up="false"
+        app:item_space="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recycler"
+        app:layout_constraintVertical_bias="0"
+        app:show_pop="true"
+        app:text_color="@color/blue_base"
+        app:text_selected_color="#FFFFFF"
+        app:text_size="14" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

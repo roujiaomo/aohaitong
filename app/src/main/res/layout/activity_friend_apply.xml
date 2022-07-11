@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_view_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/head_title_view" />
+
+    <LinearLayout
+        android:id="@+id/line_friends"
+        style="@style/mine_item"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:paddingVertical="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/cons_head"
+        tools:ignore="MissingConstraints">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="18dp"
+            android:src="@drawable/ic_phone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="通过手机号添加好友"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line_contacts"
+        style="@style/mine_item"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:paddingVertical="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/line_friends"
+        tools:ignore="MissingConstraints">
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="18dp"
+            android:src="@drawable/ic_phone_address" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="通过联系人添加好友"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/line_contacts" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

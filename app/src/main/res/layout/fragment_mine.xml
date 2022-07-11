@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_view_bg">
+
+    <LinearLayout
+        android:id="@+id/line_head_item"
+        style="@style/mine_item"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:paddingVertical="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            style="@style/mine_text"
+            android:textColor="@color/black"
+            android:text="头像" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="25dp"
+            android:src="@drawable/ic_person" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/line_nickname_item"
+        style="@style/mine_item"
+        android:background="@color/white"
+        android:layout_marginTop="4dp"
+        android:paddingVertical="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/line_head_item"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            style="@style/mine_text"
+            android:textColor="@color/black"
+            android:text="昵称" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            style="@style/mine_text"
+            android:textColor="@color/black"
+            android:layout_marginEnd="10dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line_tel_item"
+        style="@style/mine_item"
+        android:background="@color/white"
+        android:layout_marginTop="4dp"
+        android:paddingVertical="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/line_nickname_item"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            style="@style/mine_text"
+            android:textColor="@color/black"
+            android:text="手机号" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_tel"
+            style="@style/mine_text"
+            android:textColor="@color/black"
+            android:layout_marginEnd="25dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line_qr_code"
+        style="@style/mine_item"
+        android:background="@color/white"
+        android:layout_marginTop="4dp"
+        android:paddingVertical="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/line_tel_item"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            style="@style/mine_text"
+            android:textColor="@color/black"
+            android:text="二维码名片" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_qr_code"
+            android:textColor="@color/black"
+            android:layout_marginEnd="5dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line_system_item"
+        style="@style/mine_item"
+        android:background="@color/white"
+        android:layout_marginTop="4dp"
+        android:paddingVertical="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/line_qr_code"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            style="@style/mine_text"
+            android:textColor="@color/black"
+            android:text="系统设置" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_next" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_log_out"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="退出登录"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.0815"
+        app:layout_constraintTop_toBottomOf="@+id/line_system_item"
+        app:layout_constraintVertical_bias="0.59" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

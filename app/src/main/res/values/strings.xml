@@ -1,0 +1,140 @@
+<resources>
+    <string name="app_name">遨海通</string>
+    <string name="app_name_test">遨海通-test</string>
+    <string name="app_name_release">遨海通</string>
+
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="login_now">立即登录</string>
+    <string name="register_now">立即注册</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="tel_hint">请输入手机号</string>
+    <string name="verification_hint">请输入验证码</string>
+    <string name="password_please">请输入新密码(8–16位)</string>
+    <string name="check_password">请确认密码</string>
+    <string name="edit_sure">确认修改</string>
+    <string name="password_register_please">请输入密码(8–16位)</string>
+    <string name="id_card_please">请输入身份证号</string>
+    <string name="password_confirm_register_please">请再次确认密码</string>
+    <string name="login_password">请输入您的登录密码</string>
+
+    <!--    UserLoginActivity-->
+    <string name="user_login_login_tab">登录</string>
+    <string name="user_login_register_tab">注册</string>
+    <string name="user_login_login_now">立即登录</string>
+    <string name="user_login_register_now">立即注册</string>
+    <string name="user_login_tel_hint">请输入手机号</string>
+    <string name="user_login_verification_hint">请输入验证码</string>
+    <string name="user_login_password_please">请输入新密码(8–16位)</string>
+    <string name="user_login_check_password">请确认密码</string>
+    <string name="user_login_id_card_please">请输入身份证号</string>
+    <string name="user_login_password_confirm_register_please">请再次确认密码</string>
+    <string name="user_login_forget_password">忘记密码?</string>
+    <string name="user_login_digits">0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM</string>
+    <string name="user_login_check_telephone_empty">手机号不能为空!</string>
+    <string name="user_login_check_telephone_normal">请输入正常的手机号!</string>
+    <string name="user_login_check_password_empty">密码不能为空!</string>
+    <string name="user_login_service_unable">当前服务不可用，请稍后再试!</string>
+    <string name="user_login_net_unable">服务连接失败，请确认接入互联网/船台网络!</string>
+
+
+    <!--    MessageFragment-->
+    <string name="message_title">消息</string>
+    <string name="message_record">[语音]</string>
+    <string name="message_pic">[图片]</string>
+    <string name="message_video">[视频]</string>
+    <string name="message_menu_add_chat">发起聊天</string>
+    <string name="message_menu_add_group">发起群聊</string>
+    <string name="message_no_net">请确认接入互联网/船台网络</string>
+
+    <!--    ChatActivity-->
+    <string name="chat_record_normal">按住说话</string>
+    <string name="chat_record_recording">手指上划，取消发送</string>
+    <string name="chat_record_cancel">松开手指，取消发送</string>
+    <string name="chat_record_too_short">录音时间过短</string>
+    <string name="chat_record_countDown">剩余说话时间: %1$s秒</string>
+    <string name="chat_record_btn_press">录音中，松开结束</string>
+    <string name="chat_record_btn_cancel">录音中，松开取消</string>
+    <string name="chat_menu_photo_graph">拍照</string>
+    <string name="chat_menu_photo_album">相册</string>
+    <string name="chat_toast_edit_empty">无法发送空消息!</string>
+    <string name="chat_toast_edit_max_length">单次发送消息请控制在90字内!</string>
+    <string name="chat_toast_copy_to_clipBoard">已复制到剪贴板!</string>
+    <string name="chat_popup_menu_delete">删除</string>
+    <string name="chat_popup_menu_copy">复制</string>
+    <string name="chat_popup_menu_transfer_send">转发</string>
+    <string name="chat_detail">详情</string>
+    <string name="chat_record_time_unit">%1$d"</string>
+    <string name="chat_user_login_mq">(在线:宽频)</string>
+    <string name="chat_user_login_socket">(在线:宽频)</string>
+    <string name="chat_user_login_exit">(在线:宽频)</string>
+    <string name="chat_mine_not_support_file">本地窄频登录暂不支持发送图片/视频!</string>
+    <string name="chat_other_side_not_support_file">对方用户暂不支持发送图片/视频!</string>
+
+    <string name="chat_permission_ok">是</string>
+    <string name="chat_permission_cancel">取消</string>
+
+
+    <!--    IMPermissionActivity-->
+    <string name="im_permission_title">聊天权限设置</string>
+    <string name="im_permission_describe">为了保证遨海通更好的聊天体验，建议您进行如下设置</string>
+    <string name="im_permission_sub_title1">请勿开启省电模式</string>
+    <string name="im_permission_sub_describe1">如果开启了省电模式，可能会导致APP在后台运行时接收消息不及时等问题，建议您在使用遨海通过程中关闭省电模式。</string>
+    <string name="im_permission_sub_title2">电池优化设置</string>
+    <string name="im_permission_sub_describe2">由于系统的省电设置，可能会使用过程中误杀进程，请您将遨海通加入到电池保护名单中。</string>
+    <string name="im_permission_sub_title3">后台运行设置</string>
+    <string name="im_permission_sub_describe3">为避免消息接收不及时等问题，建议您为遨海通开启后台运行权限。</string>
+    <string name="im_permission_set">快速设置</string>
+    <string name="im_permission_have_set">已设置</string>
+    <string name="im_permission_background_dialog_title">暂不支持快速跳转</string>
+    <string name="im_permission_background_dialog_content">为保证消息实时接收，建议您为遨海通开启后台权限。操作步骤：1.在自动管理或启动管理里找到遨海通，并关闭自动管理选项。 2. 在弹出的弹窗中开启【允许自动启动】和【允许后台活动】权限。</string>
+
+    <!--    QRCardActivity-->
+    <string name="im_qr_code_description">扫一扫上面的二维码图案，加我好友</string>
+
+    <!--    GroupCreateActivity-->
+    <string name="group_create_search">搜索好友</string>
+    <string name="group_create_create">发起群聊</string>
+    <!--    <string name="group_create_default_name">群聊(%1$s)</string>-->
+    <string name="group_create_default_name">群聊</string>
+
+    <string name="group_create_group_name_hint">请输入群聊名称</string>
+    <string name="group_create_next">完成</string>
+    <string name="group_toast_group_name_empty">群聊名称不可为空!</string>
+    <string name="group_toast_group_member_over">群聊最多选择5人!</string>
+    <string name="group_toast_group_name_not_match">群聊名称中不可包含特殊字符!</string>
+    <string name="group_toast_group_name_max_length">群聊名称最大为16个字!</string>
+
+
+    <!--    GroupDetailActivity-->
+    <string name="group_detail_title">聊天信息</string>
+    <string name="group_detail_group_name">群聊名称</string>
+    <string name="group_detail_exit">退出群聊</string>
+    <string name="group_detail_dissolve">解散群聊</string>
+
+    <!--    MyGroupActivity-->
+    <string name="my_group_title">群聊</string>
+
+    <!--    AddGroupMemberActivity-->
+    <string name="add_group_member_title">添加群组成员</string>
+
+    <!--    RemoveGroupMemberActivity-->
+    <string name="remove_group_member_title">移除群组成员</string>
+
+    <!--    ModifyGroupNameActivity-->
+    <string name="modify_group_name_title">修改群聊名称</string>
+    <string name="modify_group_name_confirm">确定</string>
+    <string name="modify_group_name_content">修改群聊名称后，将在群内通知其他成员。</string>
+
+    <!-- permission-->
+    <string name="permission_title">权限申请</string>
+    <string name="camera_permission_deny">使用相机/相册功能需要开启相机权限, 请同意该权限!</string>
+    <string name="camera_permission_final">当前相机权限已拒绝, 为保证相机/相册正常使用, 请您去「设置」-「应用权限」里打开相机权限</string>
+    <string name="storage_permission_deny">当前存储权限已拒绝, 为保证APP正常使用, 请同意该权限!</string>
+    <string name="storage_permission_final">当前存储权限已拒绝, 为保证APP正常使用, 请您去「设置」-「应用权限」里打开存储权限</string>
+    <string name="audio_permission_deny">当前录音权限已拒绝, 为保证APP正常使用, 请同意该权限!</string>
+    <string name="audio_permission_final">当前录音权限已拒绝, 为保证APP正常使用, 请您去「设置」-「应用权限」里打开录音权限</string>
+
+
+</resources>

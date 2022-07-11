@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include layout="@layout/head_title_view" />
+
+    <!--背景-->
+    <View
+        android:id="@+id/view_blue"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/blue_base"
+        app:layout_constraintHeight_percent="0.28"
+        app:layout_constraintTop_toBottomOf="@+id/cons_head" />
+
+    <View
+        android:id="@+id/view_white"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/white_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.8" />
+
+    <!--    title-->
+    <TextView
+        android:id="@+id/tv_login_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/login"
+        android:textColor="@color/blue_base"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@id/view_white"
+        app:layout_constraintTop_toTopOf="@id/view_white" />
+
+    <TextView
+        android:id="@+id/tv_register_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="@string/register"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_login_tip"
+        app:layout_constraintLeft_toRightOf="@id/tv_login_tip"
+        app:layout_constraintTop_toTopOf="@id/tv_login_tip" />
+
+    <!--    登录表单-->
+
+    <LinearLayout
+        android:id="@+id/line_tel"
+        style="@style/user_edit_line"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/login_edit_bg"
+        app:layout_constraintTop_toBottomOf="@id/view_blue"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            style="@style/line_img"
+            android:src="@drawable/ic_phone"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/edit_tel"
+            style="@style/line_edit"
+            android:hint="@string/tel_hint"
+            android:inputType="phone"
+            android:textColor="@color/black"
+            android:textColorHint="@color/blue_base"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line_id_card"
+        style="@style/user_edit_line"
+        android:background="@drawable/login_edit_bg"
+        app:layout_constraintTop_toBottomOf="@id/line_tel"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            style="@style/line_img"
+            android:src="@drawable/ic_id_card" />
+
+        <EditText
+            android:id="@+id/edit_id_card"
+            style="@style/line_edit"
+            android:hint="@string/id_card_please"
+            android:digits="0123456789Xx"
+            android:maxLength="18"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/blue_base"
+            android:textColorHint="@color/blue_base"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/line_password_unlock"
+        style="@style/user_edit_line"
+        android:background="@drawable/login_edit_bg"
+        app:layout_constraintTop_toBottomOf="@id/line_id_card"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            style="@style/line_img"
+            android:src="@drawable/ic_pwd" />
+
+        <EditText
+            android:id="@+id/edit_psd_unlock"
+            style="@style/line_edit"
+            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM"
+            android:hint="@string/password_register_please"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/blue_base"
+            android:textColorHint="@color/blue_base"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line_confirm_password_unlock"
+        style="@style/user_edit_line"
+        android:background="@drawable/login_edit_bg"
+        app:layout_constraintTop_toBottomOf="@id/line_password_unlock"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            style="@style/line_img"
+            android:src="@drawable/ic_pwd" />
+
+        <EditText
+            android:id="@+id/edit_confirm_psd_unlock"
+            style="@style/line_edit"
+            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM"
+            android:hint="@string/password_confirm_register_please"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/blue_base"
+            android:textColorHint="@color/blue_base"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/line_password_lock"
+        style="@style/user_edit_line"
+        android:background="@drawable/login_edit_bg"
+        app:layout_constraintTop_toBottomOf="@id/line_confirm_password_unlock"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            style="@style/line_img"
+            android:src="@drawable/ic_pwd" />
+
+        <EditText
+            android:id="@+id/edit_psd_lock"
+            style="@style/line_edit"
+            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM"
+            android:hint="@string/login_password"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:textColor="@color/black"
+            android:textColorHint="@color/blue_base"
+            android:textSize="13sp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_login_see"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_pwd_visible" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_forget_psd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="忘记密码?"
+        skin:enable="false"
+        android:textColor="#A0A1A1"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_password_lock" />
+
+    <TextView
+        android:id="@+id/tv_select_network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="选择网络"
+        android:visibility="gone"
+        skin:enable="false"
+        android:textColor="#A0A1A1"
+        android:textSize="12sp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_password_lock" />
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="27dp"
+        android:layout_marginRight="27dp"
+        android:background="@drawable/login_btn_bg_blue"
+        android:text="@string/login_now"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".91" />
+</androidx.constraintlayout.widget.ConstraintLayout>

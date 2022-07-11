@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Aohaitong" parent="QMUI.Compat.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/alpha_0</item>
+        <item name="colorPrimaryVariant">@color/alpha_0</item>
+        <item name="colorOnPrimary">@color/alpha_0</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/alpha_0</item>
+        <item name="colorSecondaryVariant">@color/alpha_0</item>
+        <item name="colorOnSecondary">@color/alpha_0</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="LauncherTheme" parent="Theme.Aohaitong">
+        <item name="android:windowBackground">@drawable/login_bg</item>
+    </style>
+</resources>

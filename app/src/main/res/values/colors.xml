@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="nothing">#475490</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="alpha_0">#00000000</color>
+    <color name="shadow_gray">#140c1523</color>
+    <color name="text_gray">#c9caca</color>
+    <!--  总体的色调  -->
+    <color name="blue_base">#6685ec</color>
+    <!--  按钮、点击事件相关的文字颜色/背景色  -->
+    <color name="blue_btn">#5E81F4</color>
+    <!--  蓝色输入框的背景颜色  -->
+    <color name="blue_edit_bg">#F2F6FF</color>
+    <!--  页面默认的灰色背景 -->
+    <color name="gray_view_bg">#efefef</color>
+    <!--   输入框hint文字颜色  -->
+    <color name="gray_edit_hint">#b5b5b6</color>
+    <!--  白色输入框文字颜色  -->
+    <color name="base_edit_text">#6F6F6F</color>
+    <!--  列表文字颜色(浅色)  -->
+    <color name="base_list_text_gray">#666666</color>
+    <!--  广播文字颜色  -->
+    <color name="broadcast_text">#9F9F9F</color>
+    <!--  分割线颜色  -->
+    <color name="gray_divider_line">#E0E0E0</color>
+    <color name="gray_base_text_view_bg">#DDDDDD</color>
+    <color name="gray_base_cons_bg">#EDEDED</color>
+    <color name="red_del_btn">#CD0000</color>
+
+</resources>
