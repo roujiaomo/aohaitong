@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">遨海通</string>
     <string name="app_name_test">遨海通-test</string>
-    <string name="app_name_release">遨海通</string>
+    <string name="app_name_release">遨海通-备用</string>
 
     <string name="cancel">取消</string>
     <string name="ok">确定</string>

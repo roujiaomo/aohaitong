@@ -144,11 +144,9 @@ public class UserLoginActivity extends BaseActivity {
                         .asAttachList(new String[]{"宽频", "窄频"
                         }, null, (position, text) -> {
                             if (position == 0) {
-                                IPAddress.setMqAddress(IPAddress.MQ_ADDRESS_VALUE);
-                                IPAddress.setSocketAddress(IPAddress.MQ_ADDRESS_VALUE);
+
                             } else {
-                                IPAddress.setMqAddress(IPAddress.SOCKET_ADDRESS_VALUE);
-                                IPAddress.setSocketAddress(IPAddress.SOCKET_ADDRESS_VALUE);
+
                             }
                         });
                 attachPopupView.show();
@@ -247,7 +245,6 @@ public class UserLoginActivity extends BaseActivity {
 //                if(!isLoginPwdVisible){
 //
 //                }
-                psdLoginEdit.setText("");
                 isLoginPwdVisible = !isLoginPwdVisible;
 
             }

@@ -31,45 +31,36 @@ android {
             jni.srcDirs = []
             jniLibs.srcDirs = ['src/main/jniLibs']
         }
-//
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-//    sourceSets {
-//        main {
-//            jniLibs.srcDirs = ['src/main/jniLibs']
-//        }
-//    }
-//    flavorDimensions "default"
-//    productFlavors {
-//        //变种1
-//        review {
-//            applicationId "com.aohaitong"
-//            manifestPlaceholders = [APP_ICON     : "@mipmap/icon_app",
-//                                    APP_NAME     : "@string/app_name",
-//                                    BAIDU_MAP_KEY: "lCs6Spas2BPf7jA7rUFULT0PLkqPYWdi",
-//                                    ALIYUN_KEY   : "333598370",
-//                                    ALIYUN_SECRET: "9d3df525d2474279a3972cab0968ee9a"]
-////            ndk {
-////                abiFilters  "armeabi-v7a", "armeabi", "mips"
-////            }
-//        }
-//        intest {
-//            applicationId "com.aohaitong.test"
-//            manifestPlaceholders = [APP_ICON     : "@mipmap/icon_app",
-//                                    APP_NAME     : "@string/app_name_test",
-//                                    BAIDU_MAP_KEY: "lCs6Spas2BPf7jA7rUFULT0PLkqPYWdi",
-//                                    ALIYUN_KEY   : "333598370",
-//                                    ALIYUN_SECRET: "9d3df525d2474279a3972cab0968ee9a"]
-//        }
-//        official {
-//            applicationId "com.aohaitong.release"
-//            manifestPlaceholders = [APP_ICON     : "@mipmap/icon_app",
-//                                    APP_NAME     : "@string/app_name_release",
-//                                    BAIDU_MAP_KEY: "lCs6Spas2BPf7jA7rUFULT0PLkqPYWdi",
-//                                    ALIYUN_KEY   : "333598370",
-//                                    ALIYUN_SECRET: "9d3df525d2474279a3972cab0968ee9a"]
-//        }
-//    }
+    flavorDimensions "default"
+    productFlavors {
+        //变种1
+        review {
+            applicationId "com.aohaitong"
+            manifestPlaceholders = [APP_ICON     : "@mipmap/icon_app",
+                                    APP_NAME     : "@string/app_name",
+                                    BAIDU_MAP_KEY: "lCs6Spas2BPf7jA7rUFULT0PLkqPYWdi",
+                                    ALIYUN_KEY   : "333598370",
+                                    ALIYUN_SECRET: "9d3df525d2474279a3972cab0968ee9a"]
+        }
+        intest {
+            applicationId "com.aohaitong.test"
+            manifestPlaceholders = [APP_ICON     : "@mipmap/icon_app",
+                                    APP_NAME     : "@string/app_name_test",
+                                    BAIDU_MAP_KEY: "lCs6Spas2BPf7jA7rUFULT0PLkqPYWdi",
+                                    ALIYUN_KEY   : "333598370",
+                                    ALIYUN_SECRET: "9d3df525d2474279a3972cab0968ee9a"]
+        }
+        official {
+            applicationId "com.aohaitong.release"
+            manifestPlaceholders = [APP_ICON     : "@mipmap/icon_app",
+                                    APP_NAME     : "@string/app_name_release",
+                                    BAIDU_MAP_KEY: "lCs6Spas2BPf7jA7rUFULT0PLkqPYWdi",
+                                    ALIYUN_KEY   : "333598370",
+                                    ALIYUN_SECRET: "9d3df525d2474279a3972cab0968ee9a"]
+        }
+    }
 
     signingConfigs {
         release {
