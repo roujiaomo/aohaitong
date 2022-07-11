@@ -183,7 +183,6 @@ object HttpStatus {
      */
     const val HTTP_VERSION = 505
 
-    /* StyleHint Specific */
 
     /**
      * HTTP Status-Code 426: App Version not latest

@@ -24,12 +24,12 @@ open class ApiClient private constructor(url: String? = null) {
     }
 
 
-    val styleHintService: StyleHintService
+    val httpService: HttpService
         get() {
-            return createStyleHintService()
+            return createHttpService()
         }
 
-    fun createStyleHintService(): StyleHintService {
+    fun createHttpService(): HttpService {
         val httpClientBuilder = OkHttpClient.Builder()
         httpClientBuilder.interceptors().add(Interceptor { chain ->
             val original = chain.request()
@@ -73,7 +73,7 @@ open class ApiClient private constructor(url: String? = null) {
             .addCallAdapterFactory(FlowCallAdapterFactory.create())
             .client(client)
             .build()
-        return retrofit.create(StyleHintService::class.java)
+        return retrofit.create(HttpService::class.java)
     }
 }
 
