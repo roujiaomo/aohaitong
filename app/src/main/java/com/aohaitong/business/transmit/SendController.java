@@ -1192,6 +1192,8 @@ public class SendController {
                     if (!groupManagerTel.equals(MyApplication.TEL + "")) {
                         String groupManagerShowName = DBManager.getInstance(MyApplication.getContext()).getTelephoneShowName(groupManagerTel);
                         bean.setMsg(groupManagerShowName + "移除了" + getGroupMember(groupMembers21) + "离开群聊");
+                    } else {
+                        bean.setMsg("");
                     }
                 } else {
                     bean.setMsg(getGroupMember(groupMembers21) + "已退出群聊");
@@ -1205,7 +1207,7 @@ public class SendController {
                 isExistMessage = true;
             }
         }
-        if (!isExistMessage) {
+        if (!isExistMessage && !bean.getMsg().isEmpty()) {
             DBManager.getInstance(MyApplication.getContext()).createMsg(bean);
         }
     }

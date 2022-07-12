@@ -326,9 +326,9 @@ public class DBManager {
         if (bean.getMessageType() == 1 || bean.getMessageType() == 2 || bean.getMessageType() == 3) {
             bean.setMsg("");
         }
-        if (bean.getMessageType() != 0) {
-            bean.setMsg("");
-        }
+//        if (bean.getMessageType() != 0) {
+//            bean.setMsg("");
+//        }
         DaoMaster daoMaster = new DaoMaster(getWritableDatabase());
         DaoSession daoSession = daoMaster.newSession();
         ChatMsgBeanDao myDao = daoSession.getChatMsgBeanDao();
@@ -350,7 +350,7 @@ public class DBManager {
      * 收到新消息和发送消息时候调用
      */
     public void createMsg(ChatMsgBean msgBean) {
-        if (msgBean.getMsg().length() > 100) {
+        if (msgBean.getMsg() != null && msgBean.getMsg().length() > 100) {
             msgBean.setMsg("");
         }
         if (msgBean.getMessageType() == 1 || msgBean.getMessageType() == 2 || msgBean.getMessageType() == 3) {

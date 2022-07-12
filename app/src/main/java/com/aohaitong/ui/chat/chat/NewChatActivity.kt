@@ -745,7 +745,6 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                 .build()
                 .compressToFile(originalFile)
             val photoStringData = FileUtils.fileToString(originalFile.path)
-            Log.d("zzzzzzzzzzzzzzz", "压缩图片地址: ${compressImageFile?.path}")
 
             handleSendMessage(
                 text = photoStringData,
