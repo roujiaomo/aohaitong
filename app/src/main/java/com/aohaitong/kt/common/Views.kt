@@ -1,4 +1,4 @@
-package com.aohaitong.kt.util
+package com.aohaitong.kt.common
 
 import android.graphics.Point
 import android.view.View

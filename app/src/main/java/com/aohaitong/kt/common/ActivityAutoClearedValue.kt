@@ -1,4 +1,4 @@
-package com.aohaitong.kt.util
+package com.aohaitong.kt.common
 
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.DefaultLifecycleObserver

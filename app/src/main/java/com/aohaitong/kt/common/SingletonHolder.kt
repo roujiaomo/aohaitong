@@ -1,4 +1,4 @@
-package com.aohaitong.kt.util
+package com.aohaitong.kt.common
 
 /**
  * 有参的kotlin双锁单例

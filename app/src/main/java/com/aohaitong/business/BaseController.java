@@ -18,6 +18,7 @@ import com.aohaitong.constant.CommonConstant;
 import com.aohaitong.constant.NumConstant;
 import com.aohaitong.constant.StatusConstant;
 import com.aohaitong.db.DBManager;
+import com.aohaitong.kt.util.VersionUtil;
 import com.aohaitong.utils.ConnectThreadPoolManager;
 import com.aohaitong.utils.SPUtil;
 
@@ -45,12 +46,20 @@ public class BaseController {
         Log.e(CommonConstant.LOGCAT_TAG, "onConnectStop: 断线重连开始");
         if (isMainThread()) {
             new Thread(() -> {
-                IPController.loadIp();
+                if (VersionUtil.INSTANCE.isTestVersion()) {
+                    IPController.loadTestIp();
+                } else {
+                    IPController.loadIp();
+                }
                 doOnConnectStop();
             }
             ).start();
         } else {
-            IPController.loadIp();
+            if (VersionUtil.INSTANCE.isTestVersion()) {
+                IPController.loadTestIp();
+            } else {
+                IPController.loadIp();
+            }
             doOnConnectStop();
         }
     }

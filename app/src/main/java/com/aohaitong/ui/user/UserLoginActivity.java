@@ -32,6 +32,7 @@ import com.aohaitong.constant.IPAddress;
 import com.aohaitong.constant.NumConstant;
 import com.aohaitong.constant.StatusConstant;
 import com.aohaitong.db.DBManager;
+import com.aohaitong.kt.util.VersionUtil;
 import com.aohaitong.nettools.NetTools;
 import com.aohaitong.nettools.inter.MyCallBack;
 import com.aohaitong.ui.main.MainActivity;
@@ -101,9 +102,18 @@ public class UserLoginActivity extends BaseActivity {
         tvSelectNetwork = bindView(R.id.tv_select_network);
         ivSeeLoginPsw = bindView(R.id.iv_login_see);
         changeView();
-//        if (BuildConfig.FLAVOR.equals(CommonConstant.BUILD_IN_TEST)) {
-//            tvSelectNetwork.setVisibility(View.VISIBLE);
-//        }
+        if (VersionUtil.INSTANCE.isTestVersion()) {
+            tvSelectNetwork.setVisibility(View.VISIBLE);
+        } else {
+            tvSelectNetwork.setVisibility(View.GONE);
+        }
+        if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == StatusConstant.CONNECT_MQ) {
+            tvSelectNetwork.setText("已选择:宽频");
+        } else if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == StatusConstant.CONNECT_SOCKET) {
+            tvSelectNetwork.setText("已选择:窄频");
+        } else {
+            tvSelectNetwork.setText("选择网络");
+        }
     }
 
     private void changeView() {
@@ -129,7 +139,18 @@ public class UserLoginActivity extends BaseActivity {
             type = registerStr;
             changeView();
         });
-        loginBtn.setOnClickListener(v -> doLogin());
+        loginBtn.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            protected void onNoDoubleClick(View v) {
+                if (VersionUtil.INSTANCE.isTestVersion()) {
+                    if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == -1) {
+                        toast("请选择网络!");
+                        return;
+                    }
+                }
+                doLogin();
+            }
+        });
         forgetPsdTv.setOnClickListener(v -> ForgetPasswordActivity.startForgetPasswordActivity(UserLoginActivity.this));
 
         tvSelectNetwork.setOnClickListener(new NoDoubleClickListener() {
@@ -144,9 +165,13 @@ public class UserLoginActivity extends BaseActivity {
                         .asAttachList(new String[]{"宽频", "窄频"
                         }, null, (position, text) -> {
                             if (position == 0) {
-
+                                SPUtil.instance.putValues(new SPUtil.ContentValue(CommonConstant.SP_LOGIN_NETWORK_TYPE,
+                                        StatusConstant.CONNECT_MQ));
+                                tvSelectNetwork.setText("已选择:宽频");
                             } else {
-
+                                SPUtil.instance.putValues(new SPUtil.ContentValue(CommonConstant.SP_LOGIN_NETWORK_TYPE,
+                                        StatusConstant.CONNECT_SOCKET));
+                                tvSelectNetwork.setText("已选择:窄频");
                             }
                         });
                 attachPopupView.show();
@@ -257,7 +282,11 @@ public class UserLoginActivity extends BaseActivity {
                 showLoading("登录中");
                 MyApplication.TEL = Long.parseLong(telEdit.getText().toString());
                 new Thread(() -> {
-                    IPController.loadIp();
+                    if (VersionUtil.INSTANCE.isTestVersion()) {
+                        IPController.loadTestIp();
+                    } else {
+                        IPController.loadIp();
+                    }
                     if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_MQ) {
                         BaseController.startConnect();
                         doLoginMQ();

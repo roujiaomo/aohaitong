@@ -15,6 +15,7 @@ public class CommonConstant {
     public static String SP_VIBRATOR_OPEN = "VIBRATOR_SWITCH";
 
     public static String SP_CHOOSE_SKIN = "skin";
+    public static String SP_LOGIN_NETWORK_TYPE = "SP_LOGIN_NETWORK_TYPE";
 
     public static String RECORD_FILE_PATH = "/aohaiRecord/";
     public static String PHOTO_FILE_PATH = "/aohaiPhoto/";
@@ -22,16 +23,4 @@ public class CommonConstant {
     public static String CRASH_FILE_PATH = "/aohaiCrash/";
 
     public static String LOGCAT_TAG = "qqqqq";
-
-    public static int TAKE_PHOTO_CAMERA = 101;
-    public static int TAKE_PHOTO_ALBUM = 102;
-
-    /**
-     * BUILD方式
-     */
-    public static String BUILD_REVIEW = "review";
-    public static String BUILD_IN_TEST = "intest";
-    public static String BUILD_OFFICIAL = "official";
-
-
 }

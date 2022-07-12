@@ -105,6 +105,16 @@ public class StatusConstant {
     public static int TYPE_VIDEO_MESSAGE = 3;//视频消息
     public static int TYPE_GROUP_NOTIFY_MESSAGE = 4; //群组内通知消息(创建群聊, 拉人进群, 踢人进群, 解散群聊, 后续可能会有主动进群)
 
+    public static int TAKE_PHOTO_CAMERA = 101;
+    public static int TAKE_PHOTO_ALBUM = 102;
+
+    /**
+     * BUILD方式
+     */
+    public static String BUILD_REVIEW = "review";
+    public static String BUILD_IN_TEST = "intest";
+    public static String BUILD_OFFICIAL = "official";
+
     //分组列表标识标题还是内容item
     public static int ITEM_FRIEND_LIST_HEADER = 0;
     public static int ITEM_FRIEND_LIST_CONTENT = 1;

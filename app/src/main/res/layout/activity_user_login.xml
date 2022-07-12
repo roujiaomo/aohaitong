@@ -207,7 +207,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:text="选择网络"
-        android:visibility="gone"
         skin:enable="false"
         android:textColor="#A0A1A1"
         android:textSize="12sp"

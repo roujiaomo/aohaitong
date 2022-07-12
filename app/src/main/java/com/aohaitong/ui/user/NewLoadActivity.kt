@@ -10,9 +10,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.aohaitong.MyApplication
 import com.aohaitong.R
 import com.aohaitong.base.BaseActivity
@@ -79,6 +77,9 @@ class NewLoadActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
         ) {
             return
         }
+        if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == -1) {
+            return
+        }
         //已登录
         MyApplication.TEL = SPUtil.instance.getString(CommonConstant.LOGIN_TEL).toLong()
         showLoading("登录中")
@@ -87,28 +88,27 @@ class NewLoadActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
     private fun bindObserver() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.pingIp.collect {
-                    Thread {
-                        when (IPController.CONNECT_TYPE) {
-                            StatusConstant.CONNECT_MQ -> {
-                                doLoginMQ()
-                            }
-                            StatusConstant.CONNECT_SOCKET -> {
-                                doLoginSocket()
-                            }
-                            else -> {
-                                runOnUiThread {
-                                    loadingDialog.dismiss()
-                                    //主线程需要
-                                    toast("当前网络不佳，请检查您的网络")
-                                }
-
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.pingIp.collect {
+                Thread {
+                    when (IPController.CONNECT_TYPE) {
+                        StatusConstant.CONNECT_MQ -> {
+                            doLoginMQ()
+                        }
+                        StatusConstant.CONNECT_SOCKET -> {
+                            doLoginSocket()
+                        }
+                        else -> {
+                            runOnUiThread {
+                                loadingDialog.dismiss()
+                                //主线程需要
+                                MyQmuiDialog.showErrorDialog(this@NewLoadActivity, "当前网络不佳，请检查您的网络")
                             }
                         }
-                    }.start()
-                }
+                    }
+                }.start()
             }
+//            }
         }
 
 

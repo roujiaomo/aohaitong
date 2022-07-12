@@ -35,13 +35,14 @@ import com.aohaitong.business.transmit.BusinessController
 import com.aohaitong.business.transmit.ISendListener
 import com.aohaitong.business.transmit.TransmitManager
 import com.aohaitong.constant.CommonConstant
-import com.aohaitong.constant.CommonConstant.TAKE_PHOTO_CAMERA
 import com.aohaitong.constant.NumConstant
 import com.aohaitong.constant.StatusConstant
+import com.aohaitong.constant.StatusConstant.TAKE_PHOTO_CAMERA
 import com.aohaitong.databinding.ActivityNewChatBinding
 import com.aohaitong.db.DBManager
 import com.aohaitong.domain.common.ErrorResource
 import com.aohaitong.domain.common.SuccessResource
+import com.aohaitong.kt.util.VersionUtil
 import com.aohaitong.kt.util.autoCleared
 import com.aohaitong.kt.util.onClick
 import com.aohaitong.kt.util.onClickWithAvoidRapidAction
@@ -95,6 +96,10 @@ import kotlin.math.ceil
  *
  * 初始化加载数据 拿去本地库的消息集合，缓存本地数据集合data，然后加载数据
  * 发送新消息，本地缓存数据data不动，data.add(), 刷新列表
+ *
+ * 发送图片/视频逻辑:
+ * 1. 普通版本只有岸-岸才能发录制视频发10s视频和图片, 都不压缩
+ * 2. 测试版本 不限制船岸, 视频和图片都可以发, 都是压缩到最大版本
  */
 @AndroidEntryPoint
 class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
@@ -604,7 +609,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     }
 
     /**
-     * 处理图片/视频
+     * 从相册拿的数据
      * 视频逻辑: 先使用原视频的文件地址 刷新列表(包含跳转) 压缩成功后发送到服务器
      */
     private fun handleSendPhotoFromAlbum(photo: Photo?) {
@@ -620,12 +625,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                     isSendToService = false,
                     isGroup = isGroup,
                 )
-                if (isSendVideoGeneral()) {
-//                    val photoStringDataRunnable = Runnable {
-//                        val photoStringList = FileUtils.videoFileToString(originalFile.absolutePath)
-//                        handleSendVideoToService( photoStringList, chatMsgBean)
-//                    }
-//                    ThreadPoolManager.getInstance().execute(photoStringDataRunnable)
+                if (isSendVideoGeneral() && !VersionUtil.isTestVersion()) {
                     val photoStringDataRunnable = Runnable {
                         val photoStringData =
                             FileUtils.fileToString(originalFile.absolutePath)
@@ -655,7 +655,6 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                         } else {
                             //将此条消息状态更新为发送失败
                         }
-
                     }
                     ThreadPoolManager.getInstance().execute(compressRunnable)
                 }
@@ -897,13 +896,15 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     private fun showChatMenuDialog() {
         chatBottomDialog = ChatBottomDialog(this)
         chatBottomDialog.setOnItemListener { position ->
-            if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
-                toast(getString(R.string.chat_mine_not_support_file))
-                return@setOnItemListener
-            }
-            if (userLoginStatus == "1" || userLoginStatus == "2") {
-                toast(getString(R.string.chat_other_side_not_support_file))
-                return@setOnItemListener
+            if (!VersionUtil.isTestVersion()) {
+                if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
+                    toast(getString(R.string.chat_mine_not_support_file))
+                    return@setOnItemListener
+                }
+                if (userLoginStatus == "1" || userLoginStatus == "2") {
+                    toast(getString(R.string.chat_other_side_not_support_file))
+                    return@setOnItemListener
+                }
             }
             when (position) {
                 0 -> { //拍照
@@ -914,7 +915,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                         )
                         intent.putExtra(
                             RecordedActivity.INTENT_MAX_RECORD_TIME,
-                            if (isSendVideoGeneral()) 10 * 1000 else 5 * 1000
+                            if (VersionUtil.isTestVersion()) 10 * 1000 else 5 * 1000
                         )
                         startActivityForResult(intent, TAKE_PHOTO_CAMERA)
                         chatBottomDialog.hideDialog()
@@ -931,11 +932,11 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                             GlideEngine.getInstance()
                         )
                             .setCount(1) //设置最多选择一张
-//                            .setVideo(true) //设置显示视频
+                            .setVideo(VersionUtil.isTestVersion()) //设置显示视频
                             .setPuzzleMenu(false) //不显示拼图按钮
                             .setFileProviderAuthority(PROVIDER_STRING)
-//                        albumBuilder.setVideoMaxSecond(if (isSendVideoGeneral()) 16 else 6) //设置最大视频
-                        albumBuilder.start(CommonConstant.TAKE_PHOTO_ALBUM)
+                        albumBuilder.setVideoMaxSecond(6) //设置最大视频
+                        albumBuilder.start(StatusConstant.TAKE_PHOTO_ALBUM)
                         chatBottomDialog.hideDialog()
                     } else {
                         requestCameraPermission()
@@ -950,7 +951,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
         super.onActivityResult(requestCode, resultCode, intentData)
         when (requestCode) {
             //相册/相机选择照片
-            CommonConstant.TAKE_PHOTO_ALBUM -> {
+            StatusConstant.TAKE_PHOTO_ALBUM -> {
                 if (Activity.RESULT_OK == resultCode) {
                     val resultPhotos: ArrayList<Photo>? =
                         intentData?.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS)
