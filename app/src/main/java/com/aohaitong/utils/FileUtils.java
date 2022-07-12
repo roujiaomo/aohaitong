@@ -178,7 +178,7 @@ public class FileUtils {
             String builder = "ffmpeg " +
                     "-i " +
                     oldFilePath + " " +
-                    "-b:v 1924k " +  //码率越大 清晰度越高 码率越小 清晰度越低
+                    "-b:v 150k " +  //码率越大 清晰度越高 码率越小 清晰度越低
                     outputFilePath;
             String[] argv = builder.split(" ");
             new VideoPlayer().ffmpegCmdUtil(argv.length, argv);
