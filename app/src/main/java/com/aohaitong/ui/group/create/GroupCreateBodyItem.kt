@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.aohaitong.R
 import com.aohaitong.bean.entity.GroupFriendBean
 import com.aohaitong.databinding.ItemGroupSelectFriendBodyBinding
-import com.aohaitong.kt.util.onClick
+import com.aohaitong.kt.common.onClick
 import com.xwray.groupie.viewbinding.BindableItem
 
 class GroupCreateBodyItem(

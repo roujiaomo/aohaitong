@@ -23,8 +23,8 @@ import com.aohaitong.constant.StatusConstant
 import com.aohaitong.databinding.FragmentLoginBinding
 import com.aohaitong.domain.connect.MQConnectController
 import com.aohaitong.domain.connect.MQConnectListener
-import com.aohaitong.kt.util.autoCleared
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.autoCleared
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.ui.main.MainActivity
 import com.aohaitong.ui.user.LoginViewModel
 import com.aohaitong.utils.SPUtil

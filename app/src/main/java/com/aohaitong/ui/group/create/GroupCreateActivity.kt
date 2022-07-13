@@ -19,8 +19,8 @@ import com.aohaitong.constant.StatusConstant
 import com.aohaitong.databinding.ActivityCreateGroupBinding
 import com.aohaitong.domain.common.ErrorResource
 import com.aohaitong.domain.common.SuccessResource
-import com.aohaitong.kt.util.onClick
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClick
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.ui.chat.chat.NewChatActivity
 import com.aohaitong.utils.CommonUtil
 import com.xwray.groupie.GroupAdapter

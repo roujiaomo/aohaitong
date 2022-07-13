@@ -6,7 +6,7 @@ import com.aohaitong.R
 import com.aohaitong.bean.entity.DeleteChatParams
 import com.aohaitong.bean.entity.MessageBusinessBean
 import com.aohaitong.databinding.ItemMessageBinding
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.xwray.groupie.Item
 import com.xwray.groupie.viewbinding.BindableItem
 

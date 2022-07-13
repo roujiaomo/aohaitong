@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.aohaitong.domain.common.Resource
-import com.aohaitong.kt.util.observeOnUiThread
+import com.aohaitong.kt.common.observeOnUiThread
 import io.reactivex.Single
 
 /**

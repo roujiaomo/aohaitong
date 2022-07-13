@@ -9,7 +9,7 @@ import com.aohaitong.base.BaseActivity
 import com.aohaitong.bean.entity.PhotoDetailParams
 import com.aohaitong.databinding.ActivityPhotoDetailBinding
 import com.aohaitong.interfaces.OnChatItemClickListener
-import com.aohaitong.kt.util.autoCleared
+import com.aohaitong.kt.common.autoCleared
 import com.aohaitong.ui.chat.adapter.PhotoDetailRvAdapter
 import com.aohaitong.utils.StatusBarUtils
 

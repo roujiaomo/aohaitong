@@ -11,7 +11,7 @@ import com.aohaitong.bean.entity.ChatMsgBusinessBean
 import com.aohaitong.bean.entity.DeleteChatMsgParams
 import com.aohaitong.constant.StatusConstant
 import com.aohaitong.databinding.ItemImageSendBinding
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.utils.BitmapUtil
 import com.aohaitong.utils.audio.VideoFrameTool
 import com.aohaitong.widget.ChatMsgMenuPopup

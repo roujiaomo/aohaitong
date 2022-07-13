@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Environment
@@ -12,7 +11,6 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewTreeObserver
@@ -42,10 +40,10 @@ import com.aohaitong.databinding.ActivityNewChatBinding
 import com.aohaitong.db.DBManager
 import com.aohaitong.domain.common.ErrorResource
 import com.aohaitong.domain.common.SuccessResource
+import com.aohaitong.kt.common.autoCleared
+import com.aohaitong.kt.common.onClick
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.kt.util.VersionUtil
-import com.aohaitong.kt.util.autoCleared
-import com.aohaitong.kt.util.onClick
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
 import com.aohaitong.ui.chat.ForwardActivity
 import com.aohaitong.ui.chat.PhotoDetailActivity
 import com.aohaitong.ui.chat.PhotoDetailActivity.Companion.CURRENT_PHOTO_PATH
@@ -65,7 +63,6 @@ import com.aohaitong.widget.AudioFinishRecorderListener
 import com.aohaitong.widget.ChatBottomDialog
 import com.huantansheng.easyphotos.EasyPhotos
 import com.huantansheng.easyphotos.models.album.entity.Photo
-import com.nanchen.compresshelper.CompressHelper
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -661,19 +658,18 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
             }
             //图片
             else {
-
-                val fileName = FileUtils.generateFileName("jpg")
-                val compressImageFile = CompressHelper.Builder(this)
-                    .setMaxWidth(300f) // 最大宽度
-                    .setMaxHeight(400f) // 最大高度
-                    .setQuality(50) // 压缩质量
-                    .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
-                    .setFileName(fileName) // 设置你的文件名
-                    .setDestinationDirectoryPath(FileUtils.BASE_FILE_PATH + CommonConstant.PHOTO_FILE_PATH)
-                    .build()
-                    .compressToFile(originalFile)
+//
+//                val fileName = FileUtils.generateFileName("jpg")
+//                val compressImageFile = CompressHelper.Builder(this)
+//                    .setMaxWidth(300f) // 最大宽度
+//                    .setMaxHeight(400f) // 最大高度
+//                    .setQuality(50) // 压缩质量
+//                    .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
+//                    .setFileName(fileName) // 设置你的文件名
+//                    .setDestinationDirectoryPath(FileUtils.BASE_FILE_PATH + CommonConstant.PHOTO_FILE_PATH)
+//                    .build()
+//                    .compressToFile(originalFile)
                 val photoStringData = FileUtils.fileToString(originalFile.path)
-                Log.d("zzzzzzzzzzzzzzz", "压缩图片地址: ${compressImageFile?.path}")
 
                 handleSendMessage(
                     text = photoStringData,
@@ -706,45 +702,10 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                 handleSendToService(true, photoStringData, chatMsgBean)
             }
             ThreadPoolManager.getInstance().execute(photoStringDataRunnable)
-//            //输出文件
-//            val outputFile = File(
-//                Environment.getExternalStorageDirectory().absolutePath
-//                        + CommonConstant.PHOTO_FILE_PATH, FileUtils.generateFileName("mp4")
-//            )
-//            //压缩视频
-//            val compressRunnable = Runnable {
-//                val isCompressSuccess =
-//                    FileUtils.compressVideo(originalFile.absolutePath, outputFile.absolutePath)
-//                if (isCompressSuccess) {
-//                    chatMsgBean.filePath = outputFile.absolutePath
-//                    //更新本地库视频的路径
-//                    DBManager.getInstance(this).updateMsg(chatMsgBean)
-//                    //发送到服务器
-//                    runOnUiThread {
-//                        val photoStringData = FileUtils.fileToString(outputFile.absolutePath)
-//                        handleSendToService(true, photoStringData, chatMsgBean)
-//                    }
-//                } else {
-//                    //将此条消息状态更新为发送失败
-//                }
-//
-//            }
-//            ThreadPoolManager.getInstance().execute(compressRunnable)
         }
         //图片
         else {
-            val fileName = FileUtils.generateFileName("jpg")
-            val compressImageFile = CompressHelper.Builder(this)
-                .setMaxWidth(300f) // 最大宽度
-                .setMaxHeight(400f) // 最大高度
-                .setQuality(50) // 压缩质量
-                .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
-                .setFileName(fileName) // 设置你的文件名
-                .setDestinationDirectoryPath(FileUtils.BASE_FILE_PATH + CommonConstant.PHOTO_FILE_PATH)
-                .build()
-                .compressToFile(originalFile)
             val photoStringData = FileUtils.fileToString(originalFile.path)
-
             handleSendMessage(
                 text = photoStringData,
                 messageType = StatusConstant.TYPE_PHOTO_MESSAGE,

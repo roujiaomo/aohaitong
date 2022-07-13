@@ -10,8 +10,8 @@ import com.aohaitong.bean.entity.ChatMsgBusinessBean
 import com.aohaitong.bean.entity.DeleteChatMsgParams
 import com.aohaitong.bean.entity.VoicePlayParams
 import com.aohaitong.databinding.ItemVoiceSendBinding
-import com.aohaitong.kt.util.onClick
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClick
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.widget.ChatMsgMenuPopup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy

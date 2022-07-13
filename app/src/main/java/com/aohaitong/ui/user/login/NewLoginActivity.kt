@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import com.aohaitong.R
 import com.aohaitong.base.BaseActivity
 import com.aohaitong.databinding.ActivityNewLoginBinding
-import com.aohaitong.kt.util.autoCleared
+import com.aohaitong.kt.common.autoCleared
 import com.aohaitong.ui.adapter.LOGIN_PAGE_INDEX
 import com.aohaitong.ui.adapter.REGISTER_PAGE_INDEX
 import com.aohaitong.ui.adapter.UserLoginPagerAdapter

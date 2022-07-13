@@ -15,8 +15,8 @@ import com.aohaitong.business.transmit.ISendListener
 import com.aohaitong.constant.NumConstant
 import com.aohaitong.databinding.ActivityModifyGroupNameBinding
 import com.aohaitong.db.DBManager
-import com.aohaitong.kt.util.autoCleared
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.autoCleared
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.ui.group.detail.GroupDetailActivity
 import com.aohaitong.utils.CommonUtil
 

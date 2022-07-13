@@ -25,7 +25,7 @@ import com.aohaitong.constant.NumConstant
 import com.aohaitong.constant.StatusConstant
 import com.aohaitong.databinding.ActivityNewLoadBinding
 import com.aohaitong.db.DBManager
-import com.aohaitong.kt.util.autoCleared
+import com.aohaitong.kt.common.autoCleared
 import com.aohaitong.ui.main.MainActivity
 import com.aohaitong.utils.LogcatUtil
 import com.aohaitong.utils.SPUtil

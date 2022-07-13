@@ -13,8 +13,8 @@ import androidx.databinding.DataBindingUtil
 import com.aohaitong.R
 import com.aohaitong.base.BaseActivity
 import com.aohaitong.databinding.ActivityImpermissionBinding
-import com.aohaitong.kt.util.autoCleared
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.autoCleared
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.qmuiteam.qmui.skin.QMUISkinManager
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MessageDialogBuilder

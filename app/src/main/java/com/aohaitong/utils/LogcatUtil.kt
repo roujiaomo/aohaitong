@@ -5,7 +5,7 @@ import androidx.core.app.NotificationCompat
 import androidx.work.*
 import com.aohaitong.MyApplication
 import com.aohaitong.R
-import com.aohaitong.kt.util.SingletonHolder
+import com.aohaitong.kt.common.SingletonHolder
 import com.aohaitong.worker.WorkerName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

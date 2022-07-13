@@ -10,8 +10,8 @@ import com.aohaitong.bean.GroupEventEntity
 import com.aohaitong.databinding.ActivityMyGroupBinding
 import com.aohaitong.domain.common.ErrorResource
 import com.aohaitong.domain.common.SuccessResource
-import com.aohaitong.kt.util.autoCleared
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.autoCleared
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.ui.chat.chat.NewChatActivity
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder

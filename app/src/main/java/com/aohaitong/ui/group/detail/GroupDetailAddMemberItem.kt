@@ -4,7 +4,7 @@ import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import com.aohaitong.R
 import com.aohaitong.databinding.ItemGroupAddMemberBinding
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.xwray.groupie.viewbinding.BindableItem
 
 class GroupDetailAddMemberItem(

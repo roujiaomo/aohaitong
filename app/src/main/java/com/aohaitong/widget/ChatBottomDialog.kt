@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import com.aohaitong.R
 import com.aohaitong.interfaces.OnDialogItemClickListener
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 

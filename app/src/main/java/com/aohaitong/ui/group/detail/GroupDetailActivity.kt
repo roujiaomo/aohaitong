@@ -18,8 +18,8 @@ import com.aohaitong.databinding.ActivityGroupDetailBinding
 import com.aohaitong.db.DBManager
 import com.aohaitong.domain.common.ErrorResource
 import com.aohaitong.domain.common.SuccessResource
-import com.aohaitong.kt.util.autoCleared
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.autoCleared
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.ui.friend.FriendDetailActivity
 import com.aohaitong.ui.group.add_group_member.AddGroupMemberActivity
 import com.aohaitong.ui.group.add_group_member.AddGroupMemberActivity.Companion.RESUlT_CODE_INVITE_GROUP_MEMBER

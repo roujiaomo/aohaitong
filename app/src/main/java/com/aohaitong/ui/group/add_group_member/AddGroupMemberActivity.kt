@@ -18,7 +18,7 @@ import com.aohaitong.databinding.ActivityAddGroupMemberBinding
 import com.aohaitong.db.DBManager
 import com.aohaitong.domain.common.ErrorResource
 import com.aohaitong.domain.common.SuccessResource
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.ui.group.detail.GroupDetailActivity.Companion.GROUP_MEMBER
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder

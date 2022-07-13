@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.aohaitong.R
 import com.aohaitong.bean.FriendBean
 import com.aohaitong.databinding.ItemGroupMemberBinding
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.utils.StringUtil
 import com.xwray.groupie.Item
 import com.xwray.groupie.viewbinding.BindableItem

@@ -23,7 +23,7 @@ import com.aohaitong.db.DBManager
 import com.aohaitong.domain.common.ErrorResource
 import com.aohaitong.domain.common.SuccessResource
 import com.aohaitong.interfaces.OnItemClickListener
-import com.aohaitong.kt.util.onClick
+import com.aohaitong.kt.common.onClick
 import com.aohaitong.ui.chat.chat.NewChatActivity
 import com.aohaitong.ui.group.create.GroupCreateActivity
 import com.aohaitong.utils.TelUtil

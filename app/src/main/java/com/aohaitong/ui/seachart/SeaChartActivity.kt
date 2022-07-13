@@ -4,7 +4,7 @@ import androidx.databinding.DataBindingUtil
 import com.aohaitong.R
 import com.aohaitong.base.BaseActivity
 import com.aohaitong.databinding.ActivitySeaChartBinding
-import com.aohaitong.kt.util.autoCleared
+import com.aohaitong.kt.common.autoCleared
 
 class SeaChartActivity : BaseActivity() {
     private var binding: ActivitySeaChartBinding by autoCleared()

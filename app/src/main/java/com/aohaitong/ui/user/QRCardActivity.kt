@@ -10,8 +10,8 @@ import com.aohaitong.R
 import com.aohaitong.base.BaseActivity
 import com.aohaitong.bean.entity.QrCodeInfo
 import com.aohaitong.databinding.ActivityQrcardBinding
-import com.aohaitong.kt.util.autoCleared
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.autoCleared
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.utils.CommonUtil
 import com.aohaitong.utils.SPUtil
 import com.google.gson.Gson

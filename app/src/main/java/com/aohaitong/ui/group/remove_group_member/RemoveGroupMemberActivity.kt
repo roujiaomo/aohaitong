@@ -16,7 +16,7 @@ import com.aohaitong.business.transmit.ISendListener
 import com.aohaitong.constant.NumConstant
 import com.aohaitong.databinding.ActivityRemoveGroupMemberBinding
 import com.aohaitong.db.DBManager
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.ui.group.add_group_member.AddGroupMemberActivity
 import com.aohaitong.ui.group.detail.GroupDetailActivity
 import com.xwray.groupie.GroupAdapter

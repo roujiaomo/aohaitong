@@ -8,7 +8,7 @@ import com.aohaitong.R
 import com.aohaitong.bean.entity.ChatMsgBusinessBean
 import com.aohaitong.bean.entity.DeleteChatMsgParams
 import com.aohaitong.databinding.ItemTextSendBinding
-import com.aohaitong.kt.util.onClickWithAvoidRapidAction
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.widget.ChatMsgMenuPopup
 import com.blankj.utilcode.util.ScreenUtils
 import com.lxj.xpopup.XPopup
