@@ -876,7 +876,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                         )
                         intent.putExtra(
                             RecordedActivity.INTENT_MAX_RECORD_TIME,
-                            if (VersionUtil.isTestVersion()) 10 * 1000 else 5 * 1000
+                            if (VersionUtil.isTestVersion()) 5 * 1000 else 10 * 1000
                         )
                         startActivityForResult(intent, TAKE_PHOTO_CAMERA)
                         chatBottomDialog.hideDialog()

@@ -9,6 +9,8 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.aohaitong.MyApplication;
 import com.aohaitong.R;
@@ -257,19 +261,29 @@ public class UserLoginActivity extends BaseActivity {
                     psdLoginEdit.setText(s.toString().trim());
                     psdLoginEdit.setSelection(s.toString().length() - 1);
                 }
+                if (s.toString().length() > 0) {
+                    ivSeeLoginPsw.setVisibility(View.VISIBLE);
+                    ivSeeLoginPsw.setImageDrawable(
+                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_visible));
+                } else {
+                    ivSeeLoginPsw.setVisibility(View.GONE);
+                    ivSeeLoginPsw.setImageDrawable(
+                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_unvisible));
+                }
             }
         });
         ivSeeLoginPsw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (ivVisible.isSelected) {
-//                    etPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-//                } else {
-//                    etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
-//                }
-//                if(!isLoginPwdVisible){
-//
-//                }
+                if (isLoginPwdVisible) {
+                    psdLoginEdit.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    ivSeeLoginPsw.setImageDrawable(
+                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_visible));
+                } else {
+                    psdLoginEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    ivSeeLoginPsw.setImageDrawable(
+                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_unvisible));
+                }
                 isLoginPwdVisible = !isLoginPwdVisible;
 
             }

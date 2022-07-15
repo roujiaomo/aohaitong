@@ -26,6 +26,7 @@ import com.aohaitong.constant.StatusConstant
 import com.aohaitong.databinding.ActivityNewLoadBinding
 import com.aohaitong.db.DBManager
 import com.aohaitong.kt.common.autoCleared
+import com.aohaitong.kt.util.VersionUtil
 import com.aohaitong.ui.main.MainActivity
 import com.aohaitong.utils.LogcatUtil
 import com.aohaitong.utils.SPUtil
@@ -77,7 +78,7 @@ class NewLoadActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
         ) {
             return
         }
-        if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == -1) {
+        if (VersionUtil.isTestVersion() && SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == -1) {
             return
         }
         //已登录

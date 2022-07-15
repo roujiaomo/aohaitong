@@ -254,6 +254,7 @@ public class RecordedActivity extends BaseActivity {
 
             @Override
             public void onUp() {
+                //抬起手
                 if (isRecordVideo.get()) {
                     isRecordVideo.set(false);
                     upEvent();
@@ -262,6 +263,7 @@ public class RecordedActivity extends BaseActivity {
 
             @Override
             public void onClick() {
+                //单击拍摄照片
                 if (segmentList.size() == 0) {
                     isShotPhoto.set(true);
                 }

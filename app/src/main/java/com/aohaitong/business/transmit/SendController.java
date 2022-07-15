@@ -1108,9 +1108,13 @@ public class SendController {
                 OffshoreCommunicationMessage31 msg31 = (OffshoreCommunicationMessage31) msg;
                 bean.setGroupId(msg31.getGroupId().toString());
                 bean.setTelephone(msg31.getFriendAccount().toString());
-                String groupMemberShowName =
-                        DBManager.getInstance(MyApplication.getContext()).getTelephoneShowName(msg31.getFriendAccount().toString());
-                bean.setMsg(groupMemberShowName + "修改群名为" + "\"" + msg31.getData() + "\"");
+                if (msg31.getFriendAccount() != MyApplication.TEL) {
+                    String groupMemberShowName =
+                            DBManager.getInstance(MyApplication.getContext()).getTelephoneShowName(msg31.getFriendAccount().toString());
+                    bean.setMsg(groupMemberShowName + "修改群名为" + "\"" + msg31.getData() + "\"");
+                } else {
+                    bean.setMsg("");
+                }
                 break;
         }
         List<ChatMsgBean> chatMsgBeanList = DBManager.getInstance(MyApplication.getContext()).getGroupMessageLimitByGroupId(groupId);
@@ -1120,7 +1124,7 @@ public class SendController {
                 isExistMessage = true;
             }
         }
-        if (!isExistMessage) {
+        if (!isExistMessage && !bean.getMsg().isEmpty()) {
             DBManager.getInstance(MyApplication.getContext()).createMsg(bean);
         }
     }

@@ -108,6 +108,8 @@ public class ForwardActivity extends BaseActivity {
             bean.setMessageType(StatusConstant.TYPE_TEXT_MESSAGE);
             bean.setTelephone(((FriendLetterIndexModel) adapter.getData().get(position)).tel);
             bean.setTime(DateUtil.getInstance().getTime() + "");
+            bean.setIsGroup(false);
+            bean.setGroupId("");
             DBManager.getInstance(MyApplication.getContext()).createMsg(bean);
             EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
             BusinessController.sendMessage(bean, new ISendListener() {
