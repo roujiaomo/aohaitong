@@ -7,6 +7,7 @@ import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Environment
+import android.os.Handler
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
@@ -36,6 +37,7 @@ import com.aohaitong.constant.CommonConstant
 import com.aohaitong.constant.NumConstant
 import com.aohaitong.constant.StatusConstant
 import com.aohaitong.constant.StatusConstant.TAKE_PHOTO_CAMERA
+import com.aohaitong.constant.StatusConstant.TAKE_VIDEO_CAMERA
 import com.aohaitong.databinding.ActivityNewChatBinding
 import com.aohaitong.db.DBManager
 import com.aohaitong.domain.common.ErrorResource
@@ -123,6 +125,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     private var isTextInput = true //默认文字输入
     private var lastPlayPosition = -1
     private var userLoginStatus = ""
+    private var currentFilePathFromCamera = ""
 
     companion object {
         const val PROVIDER_STRING = "com.aohaitong.fileProvider"
@@ -155,6 +158,22 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
         initRefreshView()
     }
 
+    var handler = Handler()
+
+
+    var runnable: Runnable = object : Runnable {
+        override fun run() {
+            //保存本地数据库
+            handleSendMessage(
+                text = "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",
+                messageType = StatusConstant.TYPE_TEXT_MESSAGE,
+                isSendToService = true,
+                isGroup = isGroup
+            )
+            handler.postDelayed(this, 1000)
+        }
+    }
+
     override fun initData() {
         isGroup = intent.getBooleanExtra("isGroup", false)
         groupId = intent.getStringExtra("groupId")
@@ -178,9 +197,9 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
             binding.btnSend.visibility = View.VISIBLE
             viewModel.doServiceGroupRefresh(groupId.toLong())
         } else {
-
             viewModel.doServiceRefresh(userTelephone)
         }
+//        handler.postDelayed(runnable, 2000);
     }
 
     override fun initEvent() {
@@ -879,6 +898,27 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                             if (VersionUtil.isTestVersion()) 5 * 1000 else 10 * 1000
                         )
                         startActivityForResult(intent, TAKE_PHOTO_CAMERA)
+
+//                        val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+//                        currentFilePathFromCamera =
+//                            Environment.getExternalStorageDirectory().absolutePath +
+//                                    CommonConstant.PHOTO_FILE_PATH + FileUtils.generateFileName("mp4")
+//                        val outputFile = File(
+//                            currentFilePathFromCamera
+//                        )
+//                            val imageUri = Uri.fromFile(outputFile)
+////                        val imageUri: Uri = FileProvider.getUriForFile(
+////                            this,
+////                            "$packageName.fileprovider",
+////                            outputFile
+////                        )
+//                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+//                        //设置视频录制的最长时间
+//                        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10)
+//                        //设置视频录制的画质
+//                        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0.5)
+////                        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 5 * 1024 * 1024L)
+//                        startActivityForResult(intent, TAKE_VIDEO_CAMERA)
                         chatBottomDialog.hideDialog()
                     } else {
                         requestCameraPermission()
@@ -936,6 +976,11 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                     val photoPath: String =
                         intentData.getStringExtra(RecordedActivity.INTENT_PATH) ?: ""
                     handleSendPhotoFromCamera(photoPath)
+                }
+            }
+            TAKE_VIDEO_CAMERA -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    handleSendPhotoFromCamera(currentFilePathFromCamera)
                 }
             }
         }

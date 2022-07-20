@@ -771,17 +771,12 @@ public class CommVdesMessageUtil {
             //二进制数据(UTF8 16bit)
             encoder.addUTF8DataString(message24.getData());
         } else {
-            Log.e("qqqqq", "封装数据1: " + message24.getData().length());
             //二进制数据(ASCII 8bit)
             encoder.addDataString(message24.getData());
-            Log.e("qqqqq", "封装数据2: " + message24.getData().length());
         }
-        Log.e("qqqqq", "封装数据3: " + message24.getData().length());
         //16进制字符串
         String data = encoder.encode4bit();
-        Log.e("qqqqq", "封装数据4: " + message24.getData().length());
         String dataEncrypt = AesEncryptDecrypt.encryptHexStrByHexStr(data);
-        Log.e("qqqqq", "封装数据5: " + message24.getData().length());
         return dataEncrypt;
     }
 

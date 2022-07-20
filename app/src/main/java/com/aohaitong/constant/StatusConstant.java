@@ -107,6 +107,7 @@ public class StatusConstant {
 
     public static int TAKE_PHOTO_CAMERA = 101;
     public static int TAKE_PHOTO_ALBUM = 102;
+    public static int TAKE_VIDEO_CAMERA = 103;
 
     /**
      * BUILD方式
