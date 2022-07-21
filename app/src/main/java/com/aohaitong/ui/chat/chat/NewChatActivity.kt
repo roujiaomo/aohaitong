@@ -46,6 +46,7 @@ import com.aohaitong.kt.common.autoCleared
 import com.aohaitong.kt.common.onClick
 import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.aohaitong.kt.util.VersionUtil
+import com.aohaitong.ui.camera.CameraVideoActivity
 import com.aohaitong.ui.chat.ForwardActivity
 import com.aohaitong.ui.chat.PhotoDetailActivity
 import com.aohaitong.ui.chat.PhotoDetailActivity.Companion.CURRENT_PHOTO_PATH
@@ -876,49 +877,33 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     private fun showChatMenuDialog() {
         chatBottomDialog = ChatBottomDialog(this)
         chatBottomDialog.setOnItemListener { position ->
-            if (!VersionUtil.isTestVersion()) {
-                if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
-                    toast(getString(R.string.chat_mine_not_support_file))
-                    return@setOnItemListener
-                }
-                if (userLoginStatus == "1" || userLoginStatus == "2") {
-                    toast(getString(R.string.chat_other_side_not_support_file))
-                    return@setOnItemListener
-                }
-            }
+//            if (!VersionUtil.isTestVersion()) {
+//                if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
+//                    toast(getString(R.string.chat_mine_not_support_file))
+//                    return@setOnItemListener
+//                }
+//                if (userLoginStatus == "1" || userLoginStatus == "2") {
+//                    toast(getString(R.string.chat_other_side_not_support_file))
+//                    return@setOnItemListener
+//                }
+//            }
             when (position) {
                 0 -> { //拍照
                     if (hasCameraPermission()) {
+//                        val intent = Intent(
+//                            this,
+//                            RecordedActivity::class.java
+//                        )
+//                        intent.putExtra(
+//                            RecordedActivity.INTENT_MAX_RECORD_TIME,
+//                            if (VersionUtil.isTestVersion()) 5 * 1000 else 10 * 1000
+//                        )
+//                        startActivityForResult(intent, TAKE_PHOTO_CAMERA)
                         val intent = Intent(
                             this,
-                            RecordedActivity::class.java
-                        )
-                        intent.putExtra(
-                            RecordedActivity.INTENT_MAX_RECORD_TIME,
-                            if (VersionUtil.isTestVersion()) 5 * 1000 else 10 * 1000
+                            CameraVideoActivity::class.java
                         )
                         startActivityForResult(intent, TAKE_PHOTO_CAMERA)
-
-//                        val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-//                        currentFilePathFromCamera =
-//                            Environment.getExternalStorageDirectory().absolutePath +
-//                                    CommonConstant.PHOTO_FILE_PATH + FileUtils.generateFileName("mp4")
-//                        val outputFile = File(
-//                            currentFilePathFromCamera
-//                        )
-//                            val imageUri = Uri.fromFile(outputFile)
-////                        val imageUri: Uri = FileProvider.getUriForFile(
-////                            this,
-////                            "$packageName.fileprovider",
-////                            outputFile
-////                        )
-//                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-//                        //设置视频录制的最长时间
-//                        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10)
-//                        //设置视频录制的画质
-//                        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0.5)
-////                        intent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 5 * 1024 * 1024L)
-//                        startActivityForResult(intent, TAKE_VIDEO_CAMERA)
                         chatBottomDialog.hideDialog()
                     } else {
                         requestCameraPermission()
