@@ -183,7 +183,6 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:scaleType="centerCrop"
-            android:visibility="gone"
             android:layout_gravity="center_vertical|end"
             android:src="@drawable/ic_pwd_unvisible" />
     </LinearLayout>

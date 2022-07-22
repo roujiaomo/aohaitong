@@ -261,32 +261,29 @@ public class UserLoginActivity extends BaseActivity {
                     psdLoginEdit.setText(s.toString().trim());
                     psdLoginEdit.setSelection(s.toString().length() - 1);
                 }
-                if (s.toString().length() > 0) {
-                    ivSeeLoginPsw.setVisibility(View.VISIBLE);
-                    ivSeeLoginPsw.setImageDrawable(
-                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_visible));
-                } else {
-                    ivSeeLoginPsw.setVisibility(View.GONE);
-                    ivSeeLoginPsw.setImageDrawable(
-                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_unvisible));
-                }
+//                if (s.toString().length() > 0) {
+////                    ivSeeLoginPsw.setVisibility(View.VISIBLE);
+//                    ivSeeLoginPsw.setImageDrawable(
+//                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_unvisible));
+//                } else {
+////                    ivSeeLoginPsw.setVisibility(View.GONE);
+//                    ivSeeLoginPsw.setImageDrawable(
+//                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_visible));
+//                }
             }
         });
-        ivSeeLoginPsw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isLoginPwdVisible) {
-                    psdLoginEdit.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    ivSeeLoginPsw.setImageDrawable(
-                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_visible));
-                } else {
-                    psdLoginEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    ivSeeLoginPsw.setImageDrawable(
-                            AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_unvisible));
-                }
-                isLoginPwdVisible = !isLoginPwdVisible;
-
+        ivSeeLoginPsw.setOnClickListener(v -> {
+            if (isLoginPwdVisible) {
+                psdLoginEdit.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                ivSeeLoginPsw.setImageDrawable(
+                        AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_visible));
+            } else {
+                psdLoginEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                ivSeeLoginPsw.setImageDrawable(
+                        AppCompatResources.getDrawable(UserLoginActivity.this, R.drawable.ic_pwd_unvisible));
             }
+            isLoginPwdVisible = !isLoginPwdVisible;
+
         });
     }
 
