@@ -82,7 +82,7 @@ public class MQHeartController {
                     reconnected();
                 } else {
                     unReceiveHeart.add(num + "");
-                    Log.i(CommonConstant.LOGCAT_TAG, "MQ发送次数: ---------------------------------" + failTime);
+                    Log.i(CommonConstant.LOGCAT_TAG, "MQ发送次数: ---------------------------------" + unReceiveHeart.size());
                     BusinessController.sendHeartMsg(new ISendListener() {
                         @Override
                         public void sendSuccess() {

@@ -1,11 +1,17 @@
 package com.aohaitong.ui.camera
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.Intent
 import android.content.res.Configuration
+import android.database.Cursor
+import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -26,6 +32,8 @@ import com.aohaitong.kt.common.autoCleared
 import com.example.android.camerax.video.extensions.getAspectRatio
 import com.example.android.camerax.video.extensions.getAspectRatioString
 import com.example.android.camerax.video.extensions.getNameString
+import com.zhaoss.weixinrecorded.activity.EditVideoActivity
+import com.zhaoss.weixinrecorded.activity.RecordedActivity
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -37,6 +45,10 @@ class CameraVideoActivity : BaseActivity() {
     override fun getLayout() = R.layout.activity_camera_video
 
     override fun initView() {
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         captureViewBinding = DataBindingUtil.setContentView(this, layout)
     }
 
@@ -176,8 +188,43 @@ class CameraVideoActivity : BaseActivity() {
             // display the captured video
             lifecycleScope.launch {
                 //跳转详情
+//                val resultIntent = Intent()
+//             val filePath = getFilePathFromContentUri(event.outputResults.outputUri,  context.contentResolver)
+//
+//                resultIntent.putExtra(
+//                    RecordedActivity.INTENT_PATH, filePath
+//                )
+//                setResult(-1, resultIntent)
+//                finish()
+                val filePath = getFilePathFromContentUri(
+                    event.outputResults.outputUri,
+                    context.contentResolver
+                )
+                val intent = Intent(
+                    context,
+                    EditVideoActivity::class.java
+                )
+                intent.putExtra(RecordedActivity.INTENT_PATH, filePath)
+                startActivityForResult(intent, RecordedActivity.REQUEST_CODE_KEY)
             }
         }
+    }
+
+    fun getFilePathFromContentUri(
+        selectedVideoUri: Uri,
+        contentResolver: ContentResolver
+    ): String {
+        var filePath: String = ""
+        val filePathColumn = arrayOf<String>(MediaStore.MediaColumns.DATA)
+        val cursor: Cursor? =
+            contentResolver.query(selectedVideoUri, filePathColumn, null, null, null)
+        cursor?.let {
+            it.moveToFirst()
+            val columnIndex: Int = it.getColumnIndex(filePathColumn[0])
+            filePath = it.getString(columnIndex)
+            it.close()
+        }
+        return filePath
     }
 
     /**
@@ -321,10 +368,10 @@ class CameraVideoActivity : BaseActivity() {
                 // nothing needs to do here.
             }
             is VideoRecordEvent.Start -> {
-                showUI(UiState.RECORDING, event.getNameString())
+                showUI(CameraVideoActivity.UiState.RECORDING, event.getNameString())
             }
             is VideoRecordEvent.Finalize -> {
-                showUI(UiState.FINALIZED, event.getNameString())
+                showUI(CameraVideoActivity.UiState.FINALIZED, event.getNameString())
             }
             is VideoRecordEvent.Pause -> {
                 captureViewBinding.captureButton.setImageResource(R.drawable.ic_resume)
@@ -374,17 +421,17 @@ class CameraVideoActivity : BaseActivity() {
      *  - at recording: hide audio, qualitySelection,change camera UI; enable stop button
      *  - otherwise: show all except the stop button
      */
-    private fun showUI(state: UiState, status: String = "idle") {
+    private fun showUI(state: CameraVideoActivity.UiState, status: String = "idle") {
         captureViewBinding.let {
             when (state) {
-                UiState.IDLE -> {
+                CameraVideoActivity.UiState.IDLE -> {
                     it.captureButton.setImageResource(R.drawable.ic_start)
                     it.stopButton.visibility = View.INVISIBLE
 
                     it.cameraButton.visibility = View.VISIBLE
                     it.qualitySelection.visibility = View.VISIBLE
                 }
-                UiState.RECORDING -> {
+                CameraVideoActivity.UiState.RECORDING -> {
                     it.cameraButton.visibility = View.INVISIBLE
                     it.qualitySelection.visibility = View.INVISIBLE
 
@@ -393,7 +440,7 @@ class CameraVideoActivity : BaseActivity() {
                     it.stopButton.visibility = View.VISIBLE
                     it.stopButton.isEnabled = true
                 }
-                UiState.FINALIZED -> {
+                CameraVideoActivity.UiState.FINALIZED -> {
                     it.captureButton.setImageResource(R.drawable.ic_start)
                     it.stopButton.visibility = View.INVISIBLE
                 }
@@ -419,6 +466,25 @@ class CameraVideoActivity : BaseActivity() {
         cameraIndex = 0
 //        qualityIndex = DEFAULT_QUALITY_IDX
         audioEnabled = false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            if (requestCode == RecordedActivity.REQUEST_CODE_KEY) {
+                val intent = Intent()
+                intent.putExtra(
+                    RecordedActivity.INTENT_PATH,
+                    data.getStringExtra(RecordedActivity.INTENT_PATH)
+                )
+                intent.putExtra(
+                    RecordedActivity.INTENT_DATA_TYPE,
+                    RecordedActivity.RESULT_TYPE_VIDEO
+                )
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
     }
 
     companion object {

@@ -707,7 +707,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     private fun handleSendPhotoFromCamera(filePath: String) {
         //视频
         val originalFile = File(filePath) //原视频文件
-        if (filePath.contains("mp4")) {
+        if (filePath.contains("mp4") || filePath.contains("3gp")) {
             //发送原文件 刷新列表
             val chatMsgBean = handleSendMessage(
                 text = "",
@@ -877,33 +877,24 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     private fun showChatMenuDialog() {
         chatBottomDialog = ChatBottomDialog(this)
         chatBottomDialog.setOnItemListener { position ->
-//            if (!VersionUtil.isTestVersion()) {
-//                if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
-//                    toast(getString(R.string.chat_mine_not_support_file))
-//                    return@setOnItemListener
-//                }
-//                if (userLoginStatus == "1" || userLoginStatus == "2") {
-//                    toast(getString(R.string.chat_other_side_not_support_file))
-//                    return@setOnItemListener
-//                }
-//            }
+            if (!VersionUtil.isTestVersion()) {
+                if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
+                    toast(getString(R.string.chat_mine_not_support_file))
+                    return@setOnItemListener
+                }
+                if (userLoginStatus == "1" || userLoginStatus == "2") {
+                    toast(getString(R.string.chat_other_side_not_support_file))
+                    return@setOnItemListener
+                }
+            }
             when (position) {
                 0 -> { //拍照
                     if (hasCameraPermission()) {
-//                        val intent = Intent(
-//                            this,
-//                            RecordedActivity::class.java
-//                        )
-//                        intent.putExtra(
-//                            RecordedActivity.INTENT_MAX_RECORD_TIME,
-//                            if (VersionUtil.isTestVersion()) 5 * 1000 else 10 * 1000
-//                        )
-//                        startActivityForResult(intent, TAKE_PHOTO_CAMERA)
                         val intent = Intent(
                             this,
                             CameraVideoActivity::class.java
                         )
-                        startActivityForResult(intent, TAKE_PHOTO_CAMERA)
+                        startActivityForResult(intent, TAKE_VIDEO_CAMERA)
                         chatBottomDialog.hideDialog()
                     } else {
                         requestCameraPermission()
@@ -919,6 +910,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                         )
                             .setCount(1) //设置最多选择一张
                             .setVideo(VersionUtil.isTestVersion()) //设置显示视频
+                            .setCameraLocation(0)
                             .setPuzzleMenu(false) //不显示拼图按钮
                             .setFileProviderAuthority(PROVIDER_STRING)
                         albumBuilder.setVideoMaxSecond(6) //设置最大视频
@@ -965,11 +957,16 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
             }
             TAKE_VIDEO_CAMERA -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    handleSendPhotoFromCamera(currentFilePathFromCamera)
+                    intentData?.let {
+                        val photoPath: String =
+                            intentData.getStringExtra(RecordedActivity.INTENT_PATH) ?: ""
+                        handleSendPhotoFromCamera(photoPath)
+                    }
                 }
             }
         }
     }
+
 
     override fun onResume() {
         super.onResume()

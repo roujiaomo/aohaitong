@@ -13,6 +13,7 @@ import android.graphics.SurfaceTexture;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -32,10 +33,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lansosdk.videoeditor.LanSoEditor;
 import com.lansosdk.videoeditor.LanSongFileUtil;
 import com.lansosdk.videoeditor.MediaInfo;
 import com.lansosdk.videoeditor.VideoEditor;
 import com.lansosdk.videoeditor.onVideoEditorProgressListener;
+import com.libyuv.LibyuvUtil;
 import com.zhaoss.weixinrecorded.R;
 import com.zhaoss.weixinrecorded.util.MyVideoEditor;
 import com.zhaoss.weixinrecorded.util.RxJavaUtil;
@@ -110,6 +113,9 @@ public class EditVideoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_edit_video);
+        LanSoEditor.initSDK(this, null);
+        LanSongFileUtil.setFileDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/aohaiPhoto/" + System.currentTimeMillis() + "/");
+        LibyuvUtil.loadLibrary();
 
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 

@@ -11,7 +11,7 @@ public class IPAddress {
     public static String socketAddress = "192.168.16.232:8080";
     //本地
 //    public static String NET_IP = "http://29d11159e3.zicp.vip:28596";
-//    public static String mqAddress = "29d11159e3.zicp.vip:30410";
+//    public static String mqAddress = "29d11159e3.zi8cp.vip:30410";
 //    public static String registerUrl = NET_IP + "/offshoreCommunicationData/registerAccount";//Long phoneNumber, String password
 //    public static String forgetPassword = NET_IP + "/offshoreCommunicationData/accountForgetPassword";//Long phoneNumber, String password
     //数据湖
