@@ -127,6 +127,9 @@
     <string name="modify_group_name_confirm">确定</string>
     <string name="modify_group_name_content">修改群聊名称后，将在群内通知其他成员。</string>
 
+    <!--    CameraVideoActivity-->
+    <string name="camera_video_title">视频录制</string>
+
     <!-- permission-->
     <string name="permission_title">权限申请</string>
     <string name="camera_permission_deny">使用相机/相册功能需要开启相机权限, 请同意该权限!</string>
@@ -135,6 +138,5 @@
     <string name="storage_permission_final">当前存储权限已拒绝, 为保证APP正常使用, 请您去「设置」-「应用权限」里打开存储权限</string>
     <string name="audio_permission_deny">当前录音权限已拒绝, 为保证APP正常使用, 请同意该权限!</string>
     <string name="audio_permission_final">当前录音权限已拒绝, 为保证APP正常使用, 请您去「设置」-「应用权限」里打开录音权限</string>
-
 
 </resources>

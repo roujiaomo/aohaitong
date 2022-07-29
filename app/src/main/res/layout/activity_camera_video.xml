@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
-
         <androidx.camera.view.PreviewView
             android:id="@+id/previewView"
             android:layout_width="0dp"
@@ -42,17 +40,26 @@
             app:layout_constraintBottom_toTopOf="@id/stop_button" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/camera_button"
+            android:id="@+id/camera_close"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_close_camera"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/capture_button"
+            app:layout_constraintBottom_toBottomOf="@+id/capture_button" />
+
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/camera_mode"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="50dp"
             android:background="@drawable/ic_switch"
             android:scaleType="fitCenter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/capture_button"
-            tools:ignore="ImageContrastCheck" />
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/capture_button"
@@ -60,11 +67,10 @@
             android:layout_height="32dp"
             android:background="@drawable/ic_start"
             android:scaleType="fitCenter"
+            android:layout_marginBottom="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/camera_button"
-            app:layout_constraintBottom_toBottomOf="@+id/camera_button"
-            tools:ignore="ImageContrastCheck" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/stop_button"
@@ -73,11 +79,11 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:scaleType="fitCenter"
+            android:layout_marginStart="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/capture_button"
             app:layout_constraintTop_toTopOf="@+id/capture_button"
-            app:layout_constraintBottom_toBottomOf="@+id/capture_button"
-            tools:ignore="ImageContrastCheck" />
+            app:layout_constraintBottom_toBottomOf="@+id/capture_button" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline"

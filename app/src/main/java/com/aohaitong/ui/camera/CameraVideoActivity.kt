@@ -29,6 +29,7 @@ import com.aohaitong.R
 import com.aohaitong.base.BaseActivity
 import com.aohaitong.databinding.ActivityCameraVideoBinding
 import com.aohaitong.kt.common.autoCleared
+import com.aohaitong.kt.common.onClickWithAvoidRapidAction
 import com.example.android.camerax.video.extensions.getAspectRatio
 import com.example.android.camerax.video.extensions.getAspectRatioString
 import com.example.android.camerax.video.extensions.getNameString
@@ -64,6 +65,9 @@ class CameraVideoActivity : BaseActivity() {
     }
 
     override fun initEvent() {
+        captureViewBinding.cameraClose.onClickWithAvoidRapidAction {
+            finish()
+        }
     }
 
     // UI with ViewBinding
@@ -288,13 +292,14 @@ class CameraVideoActivity : BaseActivity() {
      */
     @SuppressLint("ClickableViewAccessibility", "MissingPermission")
     private fun initializeUI() {
-        captureViewBinding.cameraButton.apply {
+        captureViewBinding.cameraMode.apply {
             setOnClickListener {
                 cameraIndex = (cameraIndex + 1) % cameraCapabilities.size
                 // camera device change is in effect instantly:
                 //   - reset quality selection
                 //   - restart preview
-                qualityIndex = cameraCapabilities.size - 1
+                qualityIndex = if (cameraCapabilities.isEmpty()) DEFAULT_QUALITY_IDX
+                else cameraCapabilities[cameraIndex].qualities.size - 1
                 enableUI(false)
                 lifecycleScope.launch {
                     bindCaptureUsecase()
@@ -399,7 +404,7 @@ class CameraVideoActivity : BaseActivity() {
      */
     private fun enableUI(enable: Boolean) {
         arrayOf(
-            captureViewBinding.cameraButton,
+            captureViewBinding.cameraMode,
             captureViewBinding.captureButton,
             captureViewBinding.stopButton,
             captureViewBinding.qualitySelection
@@ -408,7 +413,7 @@ class CameraVideoActivity : BaseActivity() {
         }
         // disable the camera button if no device to switch
         if (cameraCapabilities.size <= 1) {
-            captureViewBinding.cameraButton.isEnabled = false
+            captureViewBinding.cameraMode.isEnabled = false
         }
         // disable the resolution list if no resolution to switch
         if (cameraCapabilities[cameraIndex].qualities.size <= 1) {
@@ -428,11 +433,11 @@ class CameraVideoActivity : BaseActivity() {
                     it.captureButton.setImageResource(R.drawable.ic_start)
                     it.stopButton.visibility = View.INVISIBLE
 
-                    it.cameraButton.visibility = View.VISIBLE
+                    it.cameraMode.visibility = View.VISIBLE
                     it.qualitySelection.visibility = View.VISIBLE
                 }
                 CameraVideoActivity.UiState.RECORDING -> {
-                    it.cameraButton.visibility = View.INVISIBLE
+                    it.cameraMode.visibility = View.INVISIBLE
                     it.qualitySelection.visibility = View.INVISIBLE
 
                     it.captureButton.setImageResource(R.drawable.ic_pause)
