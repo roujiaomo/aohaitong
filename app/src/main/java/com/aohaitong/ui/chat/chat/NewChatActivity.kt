@@ -890,6 +890,21 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
             when (position) {
                 0 -> { //拍照
                     if (hasCameraPermission()) {
+                        val albumBuilder = EasyPhotos.createCamera(
+                            this,
+                            false,
+                        )
+                            .setCount(1) //设置最多选择一张
+                            .setPuzzleMenu(false) //不显示拼图按钮
+                            .setFileProviderAuthority(PROVIDER_STRING)
+                        albumBuilder.start(StatusConstant.TAKE_PHOTO_ALBUM)
+                        chatBottomDialog.hideDialog()
+                    } else {
+                        requestCameraPermission()
+                    }
+                }
+                1 -> { //录视频
+                    if (hasCameraPermission()) {
                         val intent = Intent(
                             this,
                             CameraVideoActivity::class.java
@@ -900,7 +915,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                         requestCameraPermission()
                     }
                 }
-                1 -> {//相册
+                2 -> {//相册
                     if (hasCameraPermission()) {
                         val albumBuilder = EasyPhotos.createAlbum(
                             this,

@@ -22,14 +22,18 @@ class ChatBottomDialog(context: Context) : BottomSheetDialog(context) {
         dialog = BottomSheetDialog(context)
         dialog?.setContentView(view)
         val ivPhotoGraph = view.findViewById<ImageView>(R.id.iv_photo_graph)
+        val ivVideoCamera = view.findViewById<ImageView>(R.id.iv_video_camera)
+
         val ivPhotoAlbum = view.findViewById<ImageView>(R.id.iv_photo_album)
         ivPhotoGraph?.onClickWithAvoidRapidAction {
             mListener?.onItemClick(0)
         }
-        ivPhotoAlbum?.onClickWithAvoidRapidAction {
+        ivVideoCamera?.onClickWithAvoidRapidAction {
             mListener?.onItemClick(1)
         }
-
+        ivPhotoAlbum?.onClickWithAvoidRapidAction {
+            mListener?.onItemClick(2)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

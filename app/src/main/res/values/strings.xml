@@ -57,6 +57,7 @@
     <string name="chat_record_btn_press">录音中，松开结束</string>
     <string name="chat_record_btn_cancel">录音中，松开取消</string>
     <string name="chat_menu_photo_graph">拍照</string>
+    <string name="chat_menu_video_record">录像</string>
     <string name="chat_menu_photo_album">相册</string>
     <string name="chat_toast_edit_empty">无法发送空消息!</string>
     <string name="chat_toast_edit_max_length">单次发送消息请控制在90字内!</string>
