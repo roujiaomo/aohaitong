@@ -1,29 +1,45 @@
 package com.aohaitong.domain.usecase
 
+import android.content.Context
+import com.aohaitong.MyApplication
 import com.aohaitong.bean.entity.ChatMsgBusinessBean
 import com.aohaitong.bean.entity.DeleteChatMsgParams
 import com.aohaitong.constant.StatusConstant
 import com.aohaitong.data.DataBaseRepository
-import com.aohaitong.di.IoDispatcher
+import com.aohaitong.db.DBManager
 import com.aohaitong.domain.SingleUseCase
+import com.aohaitong.utils.SPUtil
+import com.aohaitong.utils.StringUtil
 import com.aohaitong.utils.TimeUtil
 import io.reactivex.Single
-import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 class DeleteGroupChatMsgUseCase @Inject constructor(
-    @IoDispatcher dispatcher: CoroutineDispatcher,
     private val dataBaseRepository: DataBaseRepository,
+    private val context: Context
 ) : SingleUseCase<DeleteChatMsgParams, List<ChatMsgBusinessBean>>() {
     override fun execute(parameter: DeleteChatMsgParams): Single<List<ChatMsgBusinessBean>> {
         dataBaseRepository.deleteChatMsgById(parameter.chatMsgId)
-        val chatMsgBusinessBean = mutableListOf<ChatMsgBusinessBean>()
-        dataBaseRepository.getGroupChatHistoryList(parameter.groupId.toLong()).map {
-            chatMsgBusinessBean.add(
+        return Single.just(
+            dataBaseRepository.getGroupChatHistoryList(parameter.groupId.toLong()).map {
+                val friendBean = DBManager.getInstance(context).selectFriend(it.telephone)
+                var showName = it.telephone
+                friendBean?.let {
+                    showName = StringUtil.getFirstNotNullString(
+                        arrayOf(
+                            friendBean.nickName,
+                            friendBean.name,
+                            friendBean.telephone
+                        )
+                    )
+                }
+                if (it.telephone == MyApplication.TEL.toString()) {
+                    showName = SPUtil.instance.getString(MyApplication.TEL.toString())
+                }
                 ChatMsgBusinessBean(
                     id = it.id,
                     msg = it.msg,
-                    telephone = it.telephone,
+                    telephone = showName,
                     currentUserTel = it.nowLoginTel,
                     sendType = it.sendType,
                     time = it.time,
@@ -38,8 +54,6 @@ class DeleteGroupChatMsgUseCase @Inject constructor(
                     isGroup = it.isGroup,
                     groupId = it.groupId
                 )
-            )
-        }
-        return Single.just(chatMsgBusinessBean)
+            })
     }
 }

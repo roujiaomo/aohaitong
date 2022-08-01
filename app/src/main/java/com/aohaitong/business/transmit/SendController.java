@@ -84,6 +84,7 @@ public class SendController {
     private static SendController sendController;
     private int CONNECT_TYPE = StatusConstant.CONNECT_SOCKET;
     public static List<String> groupIdList = new ArrayList<>();
+    private String currentReceiveMessage = "";
 
     private static class SendCheck {
         private final int num;
@@ -208,8 +209,16 @@ public class SendController {
                 e.printStackTrace();
             }
         } else {
+            currentReceiveMessage = message;
+            ThreadPoolManager.getInstance().execute(receiveMessageRunnable);
+        }
+    }
+
+    private final Runnable receiveMessageRunnable = new Runnable() {
+        @Override
+        public void run() {
             try {
-                JHDSentence jhdSentence = CommVdesMessageUtil.reslvToJHD(message);
+                JHDSentence jhdSentence = CommVdesMessageUtil.reslvToJHD(currentReceiveMessage);
                 OffshoreCommunicationMessage communicationMessage = jhdSentence.getOffshoreCommunicationMessage();
                 Log.d(CommonConstant.LOGCAT_TAG, "接收语句: " + new Gson().toJson(jhdSentence));
                 int msgID = communicationMessage.getMsgId();
@@ -845,7 +854,7 @@ public class SendController {
                 e.printStackTrace();
             }
         }
-    }
+    };
 
     public void handleReceiveChatMessage(OffshoreCommunicationMessage25 msg25) {
         //本地聊天表存储数据,不需要包数相关
@@ -870,21 +879,15 @@ public class SendController {
             //存储音频文件到本地
             String filePath = RecordManager.getInstance().RECORD_FILE_PATH + FileUtils.generateFileName("amr");
             bean.setFilePath(filePath);
-            ThreadPoolManager.getInstance().execute(() -> {
-                FileUtils.stringToFile(msg25.getData(), filePath);
-            });
+            FileUtils.stringToFile(msg25.getData(), filePath);
         } else if (bean.getMessageType() == StatusConstant.TYPE_PHOTO_MESSAGE) {
             String filePath = BitmapUtils.DEFAULT_FILE_PATH + FileUtils.generateFileName("jpg");
             bean.setFilePath(filePath);
-            ThreadPoolManager.getInstance().execute(() -> {
-                FileUtils.stringToFile(msg25.getData(), filePath);
-            });
+            FileUtils.stringToFile(msg25.getData(), filePath);
         } else if (bean.getMessageType() == StatusConstant.TYPE_VIDEO_MESSAGE) {
             String filePath = BitmapUtils.DEFAULT_FILE_PATH + FileUtils.generateFileName("mp4");
             bean.setFilePath(filePath);
-            ThreadPoolManager.getInstance().execute(() -> {
-                FileUtils.stringToFile(msg25.getData(), filePath);
-            });
+            FileUtils.stringToFile(msg25.getData(), filePath);
         }
         List<ChatMsgBean> chatMsgBeanList = DBManager.getInstance(MyApplication.getContext()).
                 getNewsMsgLimit(msg25.getSourceAccount().toString());
@@ -919,7 +922,6 @@ public class SendController {
         }
         EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
         EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
-
         Log.e(CommonConstant.LOGCAT_TAG, "25号消息接收成功，应答：" + new Gson().toJson(msg25));
         BusinessController.sendMsgReceiveAnswer(true, msg25,
                 null, msg25.getSequenceNumber());

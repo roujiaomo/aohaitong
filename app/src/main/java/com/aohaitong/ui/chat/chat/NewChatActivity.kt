@@ -177,8 +177,8 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
 
     override fun initData() {
         isGroup = intent.getBooleanExtra("isGroup", false)
-        groupId = intent.getStringExtra("groupId")
-        groupName = intent.getStringExtra("groupName")
+        groupId = intent.getStringExtra("groupId") ?: ""
+        groupName = intent.getStringExtra("groupName") ?: ""
         userTelephone = intent.getStringExtra("tel") ?: ""
         userName = intent.getStringExtra("name") ?: ""
         userNickName = intent.getStringExtra("nickName") ?: ""

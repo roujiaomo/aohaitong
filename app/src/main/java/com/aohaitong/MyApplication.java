@@ -23,6 +23,7 @@ import com.aohaitong.utils.SPUtil;
 import com.aohaitong.worker.SocketMessageService;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.didichuxing.doraemonkit.DoKit;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,7 +70,7 @@ public class MyApplication extends Application implements Configuration.Provider
         builder.detectFileUriExposure();
         initSkinLoader();
 //        initBaiduMap();
-//        new DoKit.Builder(this).build();
+        new DoKit.Builder(this).build();
         setForeground();
         WorkManager.getInstance(this).cancelAllWork();
         new Thread(() -> DBManager.getInstance(MyApplication.getContext()).updateAllMsgFail()).start();
