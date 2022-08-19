@@ -61,6 +61,7 @@ import com.aohaitong.utils.*
 import com.aohaitong.utils.audio.AudioFocusManager
 import com.aohaitong.utils.audio.AudioModeManger
 import com.aohaitong.utils.audio.AudioPlayerManager
+import com.aohaitong.utils.ftp.FTPClientUtil
 import com.aohaitong.widget.ActionDownListener
 import com.aohaitong.widget.AudioFinishRecorderListener
 import com.aohaitong.widget.ChatBottomDialog
@@ -678,6 +679,15 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
             }
             //图片
             else {
+                var runnable = Runnable {
+                    val ftpClientUtil = FTPClientUtil()
+                    if (ftpClientUtil.ftpConnect("", "", "", 1)) {
+//                        Log.d("lllll", "文件个数:${ ftpClientUtil.listFiles("/FTPFile").size} ")
+                        ftpClientUtil.ftpUpload(selectFile.path, selectFile.name, "")
+//                        ftpClientUtil.ftpDisconnect()
+                    }
+                }
+                ThreadPoolManager.getInstance().execute(runnable)
 //
 //                val fileName = FileUtils.generateFileName("jpg")
 //                val compressImageFile = CompressHelper.Builder(this)
@@ -689,15 +699,15 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
 //                    .setDestinationDirectoryPath(FileUtils.BASE_FILE_PATH + CommonConstant.PHOTO_FILE_PATH)
 //                    .build()
 //                    .compressToFile(originalFile)
-                val photoStringData = FileUtils.fileToString(originalFile.path)
-
-                handleSendMessage(
-                    text = photoStringData,
-                    messageType = StatusConstant.TYPE_PHOTO_MESSAGE,
-                    filePath = originalFile.path,
-                    isSendToService = true,
-                    isGroup = isGroup
-                )
+//                val photoStringData = FileUtils.fileToString(originalFile.path)
+//
+//                handleSendMessage(
+//                    text = photoStringData,
+//                    messageType = StatusConstant.TYPE_PHOTO_MESSAGE,
+//                    filePath = originalFile.path,
+//                    isSendToService = true,
+//                    isGroup = isGroup
+//                )
             }
         }
 

@@ -125,7 +125,7 @@ public class SocketController {
                     //发送文字消息
                     doTextSend(param, callback);
                     try {
-                        Thread.sleep(20);
+                        Thread.sleep(30);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
