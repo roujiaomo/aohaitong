@@ -644,7 +644,8 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                     isSendToService = false,
                     isGroup = isGroup,
                 )
-                if (isSendVideoGeneral() && !VersionUtil.isTestVersion()) {
+                //自己和对方都是是mq登录 不压缩
+                if (isSendVideoGeneral()) {
                     val photoStringDataRunnable = Runnable {
                         val photoStringData =
                             FileUtils.fileToString(originalFile.absolutePath)
@@ -700,12 +701,12 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                     .setDestinationDirectoryPath(FileUtils.BASE_FILE_PATH + CommonConstant.PHOTO_FILE_PATH)
                     .build()
                     .compressToFile(originalFile)
-                val photoStringData = FileUtils.fileToString(originalFile.path)
+                val photoStringData = FileUtils.fileToString(compressImageFile.path)
 
                 handleSendMessage(
                     text = photoStringData,
                     messageType = StatusConstant.TYPE_PHOTO_MESSAGE,
-                    filePath = originalFile.path,
+                    filePath = compressImageFile.path,
                     isSendToService = true,
                     isGroup = isGroup
                 )
@@ -728,12 +729,40 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                 isSendToService = false,
                 isGroup = isGroup,
             )
-            val photoStringDataRunnable = Runnable {
-                val photoStringData =
-                    FileUtils.fileToString(originalFile.absolutePath)
-                handleSendToService(true, photoStringData, chatMsgBean)
+            //自己和对方都是是mq登录 不压缩
+            if (isSendVideoGeneral()) {
+                val photoStringDataRunnable = Runnable {
+                    val photoStringData =
+                        FileUtils.fileToString(originalFile.absolutePath)
+                    handleSendToService(true, photoStringData, chatMsgBean)
+                }
+                ThreadPoolManager.getInstance().execute(photoStringDataRunnable)
+            } else {
+                //输出文件
+                val outputFile = File(
+                    Environment.getExternalStorageDirectory().absolutePath
+                            + CommonConstant.PHOTO_FILE_PATH, FileUtils.generateFileName("mp4")
+                )
+                //压缩视频
+                val compressRunnable = Runnable {
+                    val isCompressSuccess =
+                        FileUtils.compressVideo(
+                            originalFile.absolutePath,
+                            outputFile.absolutePath
+                        )
+                    if (isCompressSuccess) {
+                        chatMsgBean.filePath = outputFile.absolutePath
+                        //更新本地库视频的路径
+                        DBManager.getInstance(this).updateMsg(chatMsgBean)
+                        val photoStringData = FileUtils.fileToString(outputFile.absolutePath)
+                        //发送到服务器
+                        handleSendToService(true, photoStringData, chatMsgBean)
+                    } else {
+                        //将此条消息状态更新为发送失败
+                    }
+                }
+                ThreadPoolManager.getInstance().execute(compressRunnable)
             }
-            ThreadPoolManager.getInstance().execute(photoStringDataRunnable)
         }
         //图片
         else {
@@ -904,10 +933,8 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                     if (hasCameraPermission()) {
                         val albumBuilder = EasyPhotos.createCamera(
                             this,
-                            false,
+                            true,
                         )
-                            .setCount(1) //设置最多选择一张
-                            .setPuzzleMenu(false) //不显示拼图按钮
                             .setFileProviderAuthority(PROVIDER_STRING)
                         albumBuilder.start(StatusConstant.TAKE_PHOTO_ALBUM)
                         chatBottomDialog.hideDialog()

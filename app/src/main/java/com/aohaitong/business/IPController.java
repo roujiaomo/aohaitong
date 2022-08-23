@@ -2,12 +2,10 @@ package com.aohaitong.business;
 
 import android.text.TextUtils;
 
-import com.aohaitong.constant.CommonConstant;
 import com.aohaitong.constant.IPAddress;
 import com.aohaitong.constant.StatusConstant;
 import com.aohaitong.kt.util.VersionUtil;
 import com.aohaitong.utils.PingUtil;
-import com.aohaitong.utils.SPUtil;
 
 /**
  * 用于判断当前应该连接哪个IP
@@ -46,22 +44,32 @@ public class IPController {
     }
 
     public static void loadTestIp() {
-        if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == StatusConstant.CONNECT_MQ) {
-            if (PingUtil.pingHost(IPAddress.getMqAddress().split(":")[0])) {
-                IP = IPAddress.getMqAddress().split(":")[0];
-                PORT = IPAddress.getMqAddress().split(":")[1];
-                CONNECT_TYPE = StatusConstant.CONNECT_MQ;
-            } else {
-                CONNECT_TYPE = StatusConstant.CONNECT_DISCONNECTED;
-            }
-        } else if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == StatusConstant.CONNECT_SOCKET) {
-            if (PingUtil.pingHost(IPAddress.getSocketAddress().split(":")[0])) {
-                IP = IPAddress.getSocketAddress().split(":")[0];
-                PORT = IPAddress.getSocketAddress().split(":")[1];
-                CONNECT_TYPE = StatusConstant.CONNECT_SOCKET;
-            } else {
-                CONNECT_TYPE = StatusConstant.CONNECT_DISCONNECTED;
-            }
+        CONNECT_TYPE = StatusConstant.CONNECT_DISCONNECTED;
+        if (PingUtil.pingHost(IPAddress.getMqAddress().split(":")[0])) {
+            IP = IPAddress.getMqAddress().split(":")[0];
+            PORT = IPAddress.getMqAddress().split(":")[1];
+            CONNECT_TYPE = StatusConstant.CONNECT_MQ;
+        } else if (PingUtil.pingHost(IPAddress.getSocketAddress().split(":")[0])) {
+            IP = IPAddress.getSocketAddress().split(":")[0];
+            PORT = IPAddress.getSocketAddress().split(":")[1];
+            CONNECT_TYPE = StatusConstant.CONNECT_SOCKET;
         }
+//        if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == StatusConstant.CONNECT_MQ) {
+//            if (PingUtil.pingHost(IPAddress.getMqAddress().split(":")[0])) {
+//                IP = IPAddress.getMqAddress().split(":")[0];
+//                PORT = IPAddress.getMqAddress().split(":")[1];
+//                CONNECT_TYPE = StatusConstant.CONNECT_MQ;
+//            } else {
+//                CONNECT_TYPE = StatusConstant.CONNECT_DISCONNECTED;
+//            }
+//        } else if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == StatusConstant.CONNECT_SOCKET) {
+//            if (PingUtil.pingHost(IPAddress.getSocketAddress().split(":")[0])) {
+//                IP = IPAddress.getSocketAddress().split(":")[0];
+//                PORT = IPAddress.getSocketAddress().split(":")[1];
+//                CONNECT_TYPE = StatusConstant.CONNECT_SOCKET;
+//            } else {
+//                CONNECT_TYPE = StatusConstant.CONNECT_DISCONNECTED;
+//            }
+//        }
     }
 }

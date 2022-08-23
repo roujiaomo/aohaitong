@@ -106,11 +106,7 @@ public class UserLoginActivity extends BaseActivity {
         tvSelectNetwork = bindView(R.id.tv_select_network);
         ivSeeLoginPsw = bindView(R.id.iv_login_see);
         changeView();
-        if (VersionUtil.INSTANCE.isTestVersion()) {
-            tvSelectNetwork.setVisibility(View.VISIBLE);
-        } else {
-            tvSelectNetwork.setVisibility(View.GONE);
-        }
+        tvSelectNetwork.setVisibility(View.GONE);
         if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == StatusConstant.CONNECT_MQ) {
             tvSelectNetwork.setText("已选择:宽频");
         } else if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == StatusConstant.CONNECT_SOCKET) {
@@ -146,12 +142,6 @@ public class UserLoginActivity extends BaseActivity {
         loginBtn.setOnClickListener(new NoDoubleClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
-                if (VersionUtil.INSTANCE.isTestVersion()) {
-                    if (SPUtil.instance.getInt(CommonConstant.SP_LOGIN_NETWORK_TYPE) == -1) {
-                        toast("请选择网络!");
-                        return;
-                    }
-                }
                 doLogin();
             }
         });
