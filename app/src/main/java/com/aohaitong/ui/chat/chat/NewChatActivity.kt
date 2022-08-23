@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Environment
@@ -61,12 +62,12 @@ import com.aohaitong.utils.*
 import com.aohaitong.utils.audio.AudioFocusManager
 import com.aohaitong.utils.audio.AudioModeManger
 import com.aohaitong.utils.audio.AudioPlayerManager
-import com.aohaitong.utils.ftp.FTPClientUtil
 import com.aohaitong.widget.ActionDownListener
 import com.aohaitong.widget.AudioFinishRecorderListener
 import com.aohaitong.widget.ChatBottomDialog
 import com.huantansheng.easyphotos.EasyPhotos
 import com.huantansheng.easyphotos.models.album.entity.Photo
+import com.nanchen.compresshelper.CompressHelper
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -679,35 +680,36 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
             }
             //图片
             else {
-                var runnable = Runnable {
-                    val ftpClientUtil = FTPClientUtil()
-                    if (ftpClientUtil.ftpConnect("", "", "", 1)) {
-//                        Log.d("lllll", "文件个数:${ ftpClientUtil.listFiles("/FTPFile").size} ")
-                        ftpClientUtil.ftpUpload(selectFile.path, selectFile.name, "")
-//                        ftpClientUtil.ftpDisconnect()
-                    }
-                }
-                ThreadPoolManager.getInstance().execute(runnable)
+//                var runnable = Runnable {
+//                    val ftpClientUtil = FTPClientUtil()
+//                    if (ftpClientUtil.ftpConnect("", "", "", 1)) {
+////                        Log.d("lllll", "文件个数:${ ftpClientUtil.listFiles("/FTPFile").size} ")
+//                        ftpClientUtil.ftpUpload(selectFile.path, selectFile.name, "")
+////                        ftpClientUtil.ftpDisconnect()
+//                    }
+//                }
+//                ThreadPoolManager.getInstance().execute(runnable)
 //
-//                val fileName = FileUtils.generateFileName("jpg")
-//                val compressImageFile = CompressHelper.Builder(this)
-//                    .setMaxWidth(300f) // 最大宽度
-//                    .setMaxHeight(400f) // 最大高度
-//                    .setQuality(50) // 压缩质量
-//                    .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
-//                    .setFileName(fileName) // 设置你的文件名
-//                    .setDestinationDirectoryPath(FileUtils.BASE_FILE_PATH + CommonConstant.PHOTO_FILE_PATH)
-//                    .build()
-//                    .compressToFile(originalFile)
-//                val photoStringData = FileUtils.fileToString(originalFile.path)
-//
-//                handleSendMessage(
-//                    text = photoStringData,
-//                    messageType = StatusConstant.TYPE_PHOTO_MESSAGE,
-//                    filePath = originalFile.path,
-//                    isSendToService = true,
-//                    isGroup = isGroup
-//                )
+                val fileName = FileUtils.generateFileName("jpg")
+                val compressImageFile = CompressHelper.Builder(this)
+                    .setMaxWidth(300f) // 最大宽度
+                    .setMaxHeight(400f) // 最大高度
+                    .setQuality(50) // 压缩质量
+                    .setCompressFormat(Bitmap.CompressFormat.JPEG) // 设置默认压缩为jpg格式
+                    .setFileName(fileName) // 设置你的文件名
+                    .setDestinationDirectoryPath(FileUtils.BASE_FILE_PATH + CommonConstant.PHOTO_FILE_PATH)
+                    .build()
+                    .compressToFile(originalFile)
+                val photoStringData = FileUtils.fileToString(originalFile.path)
+
+                handleSendMessage(
+                    text = photoStringData,
+                    messageType = StatusConstant.TYPE_PHOTO_MESSAGE,
+                    filePath = originalFile.path,
+                    isSendToService = true,
+                    isGroup = isGroup
+                )
+
             }
         }
 
