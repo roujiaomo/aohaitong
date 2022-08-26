@@ -924,7 +924,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                         startActivityForResult(intent, TAKE_VIDEO_CAMERA)
                         chatBottomDialog.hideDialog()
                     } else {
-                        requestCameraPermission()
+                        requestVideoPermission()
                     }
                 }
                 2 -> {//相册
@@ -1236,6 +1236,20 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                 Manifest.permission.RECORD_AUDIO,
             )
                 .setRationale(R.string.audio_permission_deny)
+                .setPositiveButtonText(R.string.chat_permission_ok)
+                .setNegativeButtonText(R.string.chat_permission_cancel)
+                .build()
+        )
+    }
+
+    private fun requestVideoPermission() {
+        EasyPermissions.requestPermissions(
+            PermissionRequest.Builder(
+                this,
+                PermissionUtils.CAMERA_PERMISSION,
+                Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
+            )
+                .setRationale(R.string.camera_permission_deny)
                 .setPositiveButtonText(R.string.chat_permission_ok)
                 .setNegativeButtonText(R.string.chat_permission_cancel)
                 .build()
