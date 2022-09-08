@@ -13,6 +13,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewTreeObserver
@@ -1183,6 +1184,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String?>) {
+        Log.d("wwwww", "权限被赋予: ")
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String?>) {

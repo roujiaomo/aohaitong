@@ -8,6 +8,7 @@ object PermissionUtils {
     const val CAMERA_PERMISSION = 123
     const val STORAGE_PERMISSION = 124
     const val AUDIO_PERMISSION = 125
+    const val LOCATION_PERMISSION = 126
 
     fun checkPermissionAllGranted(context: Context, permissions: Array<String>): Boolean {
         for (permission in permissions) {

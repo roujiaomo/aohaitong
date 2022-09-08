@@ -86,6 +86,8 @@ public class MyApplication extends Application implements Configuration.Provider
         xcrash.XCrash.init(this, initParameters);
         copyAssetAndWrite("dusk.skin");
         copyAssetAndWrite("night.skin");
+//        MapsInitializer.updatePrivacyShow(this,true,true);
+//        MapsInitializer.updatePrivacyAgree(this,true);
     }
 
     private void initBaiduMap() {

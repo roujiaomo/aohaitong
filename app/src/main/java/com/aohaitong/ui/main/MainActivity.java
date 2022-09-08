@@ -74,10 +74,10 @@ public class MainActivity extends BaseActivity {
     private MainTabAdapter adapter;
     private List<Fragment> fragments;
     private final String[] tabTitle = new String[]{"消息", "好友",
-//            "海图",
+            "海图",
             "我的"};
     private final int[] tabImg = new int[]{R.drawable.tab_msg, R.drawable.tab_friend,
-//            R.drawable.tab_seachart,
+            R.drawable.tab_seachart,
             R.drawable.tab_mine};
 
     private NewMessageFragment messageFragment;
@@ -120,10 +120,10 @@ public class MainActivity extends BaseActivity {
         messageFragment = new NewMessageFragment();
         friendFragment = new FriendFragment();
         mineFragment = new MineFragment();
-//        seaChartFragment = new SeaChartFragment();
+        seaChartFragment = new SeaChartFragment();
         fragments.add(messageFragment);
         fragments.add(friendFragment);
-//        fragments.add(seaChartFragment);
+        fragments.add(seaChartFragment);
         fragments.add(mineFragment);
         adapter = new MainTabAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         adapter.setFragments(fragments);
@@ -166,12 +166,12 @@ public class MainActivity extends BaseActivity {
                         break;
                     }
                     case 2:
-                        consHeader.setVisibility(View.VISIBLE);
-                        scanButton.setVisibility(View.GONE);
-                        fullScreenButton.setVisibility(View.GONE);
 //                        consHeader.setVisibility(View.VISIBLE);
 //                        scanButton.setVisibility(View.GONE);
-//                        fullScreenButton.setVisibility(View.VISIBLE);
+//                        fullScreenButton.setVisibility(View.GONE);
+                        consHeader.setVisibility(View.VISIBLE);
+                        scanButton.setVisibility(View.GONE);
+                        fullScreenButton.setVisibility(View.VISIBLE);
                         break;
                     case 3: {
                         consHeader.setVisibility(View.VISIBLE);

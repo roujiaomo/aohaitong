@@ -194,6 +194,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+
         <receiver
             android:name=".worker.MyMessageReceiver"
             android:exported="false"> <!-- 为保证receiver安全，建议设置不可导出，如需对其他应用开放可通过android：permission进行限制 -->
@@ -217,8 +218,12 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="${BAIDU_MAP_KEY}" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="50c580197525a0115cc11d077b06e60a" />
 
         <service android:name=".worker.SocketMessageService" />
+        <service android:name="com.amap.api.location.APSService" />
 
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"

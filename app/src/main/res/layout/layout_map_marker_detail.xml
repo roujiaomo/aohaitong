@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_mmsi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:text="@string/sea_map_mmsi" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_lon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mmsi"
+        tool:text="@string/sea_map_lon" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_lat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_lon"
+        app:layout_constraintTop_toTopOf="@+id/tv_lon"
+        tool:text="@string/sea_map_lat" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_ship_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_lon"
+        tool:text="@string/sea_map_ship_speed" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_ship_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_ship_speed"
+        app:layout_constraintTop_toTopOf="@+id/tv_ship_speed"
+        tool:text="@string/sea_map_ship_heading" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/blue_btn"
+        android:textSize="15sp"
+        android:text="@string/sea_map_ship_login_member"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ship_heading" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -139,5 +139,15 @@
     <string name="storage_permission_final">当前存储权限已拒绝, 为保证APP正常使用, 请您去「设置」-「应用权限」里打开存储权限</string>
     <string name="audio_permission_deny">当前录音权限已拒绝, 为保证APP正常使用, 请同意该权限!</string>
     <string name="audio_permission_final">当前录音权限已拒绝, 为保证APP正常使用, 请您去「设置」-「应用权限」里打开录音权限</string>
+    <string name="location_permission_deny">使用海图功能需要开启定位权限, 请同意该权限!</string>
+    <string name="location_permission_final">当前定位权限已拒绝, 为保证海图功能正常使用, 请您去「设置」-「应用权限」里打开定位权限</string>
+
+    <!-- sea map-->
+    <string name="sea_map_lat">纬度：</string>
+    <string name="sea_map_lon">经度：</string>
+    <string name="sea_map_mmsi">Mmsi：</string>
+    <string name="sea_map_ship_heading">船首向：</string>
+    <string name="sea_map_ship_speed">速度：</string>
+    <string name="sea_map_ship_login_member">查看船上登录成员</string>
 
 </resources>
