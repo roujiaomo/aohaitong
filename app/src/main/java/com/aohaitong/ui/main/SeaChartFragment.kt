@@ -42,6 +42,9 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
     private var mLocationClient: AMapLocationClient? = null
     private lateinit var mLocationOption: AMapLocationClientOption
     private var mListener: OnLocationChangedListener? = null
+    private var markerList = mutableListOf<Marker>()
+
+
     override fun setLayout() = R.layout.fragment_sea_chart
 
 
@@ -61,7 +64,7 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
             MyLocationStyle() //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE)//定位一次，且将视角移动到地图中心点。
         myLocationStyle.interval(5000) //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        myLocationStyle.showMyLocation(true)
+        myLocationStyle.showMyLocation(false)
         aMap.setLocationSource(this)
 //        aMap.isMyLocationEnabled = true // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.myLocationStyle = myLocationStyle //设置定位蓝点的Style
@@ -139,7 +142,7 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
                                 .decodeResource(resources, R.drawable.ic_ship_png)
                         )
                     )
-                    .title("title")
+                    .title("mmsi")
                     .snippet("DefaultMarker")
             )
         var cameraUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition(latLng, 8F, 0F, 0F))
@@ -188,7 +191,6 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
                 tvLat.text = getString(R.string.sea_map_lat) + 121.3806
                 tvShipSpeed.text = getString(R.string.sea_map_ship_speed) + 9.9
                 tvShipHeading.text = getString(R.string.sea_map_ship_heading) + 94
-
             }
         }
         aMap.setInfoWindowAdapter(mAMapSpotAdapter)
