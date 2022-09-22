@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">遨海通</string>
     <string name="app_name_test">遨海通-test</string>
     <string name="app_name_release">遨海通-备用</string>
@@ -139,5 +139,11 @@
     <string name="storage_permission_final">当前存储权限已拒绝, 为保证APP正常使用, 请您去「设置」-「应用权限」里打开存储权限</string>
     <string name="audio_permission_deny">当前录音权限已拒绝, 为保证APP正常使用, 请同意该权限!</string>
     <string name="audio_permission_final">当前录音权限已拒绝, 为保证APP正常使用, 请您去「设置」-「应用权限」里打开录音权限</string>
+
+    <!--    RefreshLayoutHeader-->
+    <string name="refresh_header_pulling">下拉加载更多</string>
+    <string name="refresh_header_release">释放加载更多</string>
+    <string name="refresh_header_refreshing" tools:ignore="TypographyEllipsis">正在加载...</string>
+    <string name="refresh_header_finish">加载完成</string>
 
 </resources>

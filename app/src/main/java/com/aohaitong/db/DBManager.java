@@ -115,7 +115,7 @@ public class DBManager {
     /**
      * 进入聊天页面调用
      * ChatActivity
-     * 查询同一号码的消息
+     * 查询同一号码的所有消息
      * 并且批量更新阅读状态
      *
      * @param telNum 电话号码
@@ -132,6 +132,22 @@ public class DBManager {
         updateAll(telNum);
         return beans;
     }
+
+
+    public List<ChatMsgBean> getNewsMsgByPage(String telNum, int pageNum) {
+        DaoMaster daoMaster = new DaoMaster(getReadableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        ChatMsgBeanDao myDao = daoSession.getChatMsgBeanDao();
+        List<ChatMsgBean> beans = myDao.queryBuilder().where(ChatMsgBeanDao.Properties.Telephone.eq(telNum),
+                ChatMsgBeanDao.Properties.NowLoginTel.eq(MyApplication.TEL))
+                .offset(pageNum * 10).limit(10)
+                .orderDesc(ChatMsgBeanDao.Properties.Time).list();
+
+        Collections.reverse(beans);
+        updateAll(telNum);
+        return beans;
+    }
+
 
     /**
      * 进入聊天页面调用

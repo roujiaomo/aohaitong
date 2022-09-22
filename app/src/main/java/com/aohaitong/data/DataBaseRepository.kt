@@ -29,6 +29,9 @@ class DataBaseRepository @Inject constructor(
     fun getChatHistoryList(userTel: String): List<ChatMsgBean> =
         DBManager.getInstance(context).getNewsMsg(userTel)
 
+    //获取分页聊天记录(NewChatActivity)
+    fun getChatHistoryListByPage(userTel: String, pageNum: Int): List<ChatMsgBean> =
+        DBManager.getInstance(context).getNewsMsgByPage(userTel, pageNum)
 
     //删除单条聊天记录(NewChatActivity)
     fun deleteChatMsgById(chatMsgId: Long) {

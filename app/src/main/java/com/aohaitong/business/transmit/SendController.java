@@ -918,7 +918,7 @@ public class SendController {
             NotificationUtil.getInstance().playVibrator();
         }
         EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-        EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
+        EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE, bean));
 
         Log.e(CommonConstant.LOGCAT_TAG, "25号消息接收成功，应答：" + new Gson().toJson(msg25));
         BusinessController.sendMsgReceiveAnswer(true, msg25,

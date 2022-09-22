@@ -28,6 +28,7 @@ import com.aohaitong.base.BaseActivity
 import com.aohaitong.bean.ChatMsgBean
 import com.aohaitong.bean.MsgEntity
 import com.aohaitong.bean.entity.ChatMsgBusinessBean
+import com.aohaitong.bean.entity.GetChatListParams
 import com.aohaitong.bean.entity.PhotoDetailParams
 import com.aohaitong.bean.entity.VoicePlayParams
 import com.aohaitong.business.IPController
@@ -110,7 +111,6 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     private var groupieAdapter: GroupAdapter<GroupieViewHolder> by autoCleared()
     private lateinit var section: Section
     private var binding: ActivityNewChatBinding by autoCleared()
-    private var cacheRvList = mutableListOf<ChatMsgBusinessBean>()
 
     private var msgGroupList = mutableListOf<Group>()
     private val viewModel by viewModels<ChatViewModel>()
@@ -129,6 +129,11 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     private var lastPlayPosition = -1
     private var userLoginStatus = ""
     private var currentFilePathFromCamera = ""
+
+    //分页
+    private var pageNum = 0
+    private var cacheRvList = mutableListOf<ChatMsgBusinessBean>()
+    private var cacheNewMsgNum = 0 //相对 缓存列表/数据库原有数据 新增的消息数 用于下拉加载更多数据时候数据的偏移 每次下拉结束后重置
 
     companion object {
         const val PROVIDER_STRING = "com.aohaitong.fileProvider"
@@ -200,23 +205,37 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
             binding.btnSend.visibility = View.VISIBLE
             viewModel.doServiceGroupRefresh(groupId.toLong())
         } else {
-            viewModel.doServiceRefresh(userTelephone)
+            viewModel.getChatListByPage(
+                GetChatListParams(
+                    pageNum = pageNum,
+                    userTel = userTelephone
+                )
+            )
         }
 //        handler.postDelayed(runnable, 2000);
     }
 
     override fun initEvent() {
-        //服务器返回, 刷新列表数据
+        //查询本地数据,刷新数据
         lifecycleScope.launch {
-            viewModel.doServiceRefreshResponse.observe(this@NewChatActivity) {
+            viewModel.getChatListByPageResponse.observe(this@NewChatActivity) {
                 when (it) {
                     is SuccessResource -> {
                         //修改消息的状态
-                        cacheRvList.clear()
-                        cacheRvList.addAll(it.data.toMutableList())
+                        binding.refreshLayout.finishRefresh()
+                        if (pageNum > 0) {
+                            for (bean in it.data.reversed()) {//倒序
+                                cacheRvList.add(0, bean)
+                            }
+                            cacheNewMsgNum = 0
+                        } else {
+                            cacheRvList.addAll(it.data.toMutableList())
+                        }
                         convertGroupieList(cacheRvList)
                         section.update(msgGroupList)
-                        scrollToBottom()
+                        if (pageNum == 0) {
+                            scrollToBottom()
+                        }
                     }
                     is ErrorResource -> {
 
@@ -226,6 +245,9 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                 }
             }
         }
+
+        //服务器返回, 刷新列表数据
+
 
         //刷新群聊聊天数据
         lifecycleScope.launch {
@@ -595,6 +617,8 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
         addItemToGroupieList(chatMsgBusinessBean)
         section.update(msgGroupList)
         scrollToBottom()
+        //本地库更新发送后的数据后 就认为新缓存了一条数据
+        calculateCurrentPage()
         //发送到服务器
         if (isSendToService) { //直接发送到服务器
             handleSendToService(isFile, text, chatMsgBean)
@@ -757,18 +781,40 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                 if (isGroup) {
                     viewModel.doServiceGroupRefresh(groupId.toLong())
                 } else {
-                    viewModel.doServiceRefresh(userTelephone)
+                    val chatMsgBean = entity.`object` as ChatMsgBean
+                    var cacheIndex = -1
+                    cacheRvList.mapIndexed { index, chatMsgBusinessBean ->
+                        if (chatMsgBusinessBean.id == chatMsgBean.id) {
+                            cacheIndex = index
+                        }
+                    }
+                    if (cacheIndex != -1) {
+                        cacheRvList.removeAt(cacheIndex)
+                        cacheRvList.add(cacheIndex, DataUtils.convertChatBusinessBean(chatMsgBean))
+                    }
+                    convertGroupieList(cacheRvList)
+                    section.update(msgGroupList)
+                    if (pageNum == 0) {
+                        scrollToBottom()
+                    }
                 }
             }
             //接收好友消息 刷新界面数据
             StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE -> {
+                calculateCurrentPage()
                 if (isGroup) {
                     viewModel.doServiceGroupRefresh(groupId.toLong())
                     //获取群组名称显示标题
                     binding.tvTitle.text =
                         DBManager.getInstance(this).getGroupNameById(groupId).toString()
                 } else {
-                    viewModel.doServiceRefresh(userTelephone)
+                    val chatMsgBean = entity.`object` as ChatMsgBean
+                    if (chatMsgBean.telephone != userTelephone) {
+                        return
+                    }
+                    cacheRvList.add(DataUtils.convertChatBusinessBean(chatMsgBean))
+                    convertGroupieList(cacheRvList)
+                    section.update(msgGroupList)
                 }
             }
             StatusConstant.EVENT_CHAT_RECEIVE_USER_LOGIN_STATUS -> {
@@ -794,7 +840,9 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
 
     private fun convertGroupieList(list: MutableList<ChatMsgBusinessBean>) {
         msgGroupList.clear()
-        list.map {
+        list.distinctBy { //不做去重也行
+            it.id
+        }.map {
             addItemToGroupieList(it)
         }
     }
@@ -1122,14 +1170,16 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
     }
 
     private fun initRefreshView() {
-//        binding.refreshLayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-//        binding.refreshLayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-//        binding.refreshLayout.setOnRefreshListener { refreshLayout ->
+        binding.refreshLayout.setDisableContentWhenRefresh(true)//是否在刷新的时候禁止列表的操作
+        binding.refreshLayout.setDisableContentWhenLoading(true)//是否在加载的时候禁止列表的操作
+        binding.refreshHeader.setEnableLastTime(false)
+        binding.refreshHeader.setFinishDuration(0)
+        binding.refreshLayout.setOnRefreshListener { refreshLayout ->
 //            refreshLayout.finishRefresh(2000 /*,false*/) //传入false表示刷新失败
-//        }
-//        binding.refreshLayout.setOnLoadMoreListener { refreshLayout ->
-//            refreshLayout.finishLoadMore(2000 /*,false*/) //传入false表示加载失败
-//        }
+            //加载上一页(如果有数据的话,处理数据,结束刷新,如果没有数据的话,直接结束刷新)
+            pageNum++
+            viewModel.getChatListByPage(GetChatListParams(pageNum, userTelephone))
+        }
     }
 
 
@@ -1169,8 +1219,20 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
         }
     }
 
+    /**
+     * 是不是岸端登录
+     */
     private fun isSendVideoGeneral(): Boolean {
         return IPController.CONNECT_TYPE == StatusConstant.CONNECT_MQ && userLoginStatus == "0"
+    }
+
+    /**
+     * 计算当前页数(发送新消息或接收新消息后调用)
+     * 查询后去重
+     */
+    private fun calculateCurrentPage() {
+        cacheNewMsgNum++
+        pageNum += cacheNewMsgNum / 10
     }
 
     override fun onRequestPermissionsResult(

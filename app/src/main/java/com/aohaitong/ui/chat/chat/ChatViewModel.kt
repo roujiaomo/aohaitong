@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.aohaitong.bean.entity.ChatMsgBusinessBean
 import com.aohaitong.bean.entity.DeleteChatMsgParams
+import com.aohaitong.bean.entity.GetChatListParams
 import com.aohaitong.bean.entity.VoicePlayParams
 import com.aohaitong.domain.usecase.DeleteChatMsgUseCase
 import com.aohaitong.domain.usecase.DeleteGroupChatMsgUseCase
-import com.aohaitong.domain.usecase.GetChatHistoryListUseCase
+import com.aohaitong.domain.usecase.GetChatHistoryListByPageUseCase
 import com.aohaitong.domain.usecase.GetGroupChatHistoryListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
@@ -17,20 +18,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val getChatHistoryListUseCase: GetChatHistoryListUseCase,
+    private val getChatHistoryListByPageUseCase: GetChatHistoryListByPageUseCase,
     private val getGroupChatHistoryListUseCase: GetGroupChatHistoryListUseCase,
     private val deleteGroupChatMsgUseCase: DeleteGroupChatMsgUseCase,
     private val deleteChatMsgUseCase: DeleteChatMsgUseCase
 ) : ViewModel() {
 
-    private val _doServiceRefreshAction = MutableLiveData<String>()
-    val doServiceRefreshResponse = _doServiceRefreshAction.switchMap {
-        getChatHistoryListUseCase(it)
-    }
 
     private val _doServiceRefreshGroupAction = MutableLiveData<Long>()
     val doServiceRefreshGroupResponse = _doServiceRefreshGroupAction.switchMap {
         getGroupChatHistoryListUseCase(it)
+    }
+
+    private val _getChatListByPageAction = MutableLiveData<GetChatListParams>()
+
+    val getChatListByPageResponse = _getChatListByPageAction.switchMap {
+        getChatHistoryListByPageUseCase(it)
     }
 
     private val _handleDeleteMessageAction = MutableLiveData<DeleteChatMsgParams>()
@@ -82,12 +85,11 @@ class ChatViewModel @Inject constructor(
     )
     val viewLargeImageOrVideoClickAction = _viewLargeImageOrVideoClickAction
 
-
     /**
-     * 刷新消息状态
+     * 获取私聊全部消息
      */
-    fun doServiceRefresh(currentUserTel: String) {
-        _doServiceRefreshAction.value = currentUserTel
+    fun getChatListByPage(getChatListParams: GetChatListParams) {
+        _getChatListByPageAction.value = getChatListParams
     }
 
     /**

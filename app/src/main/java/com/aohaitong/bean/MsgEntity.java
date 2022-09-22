@@ -3,6 +3,7 @@ package com.aohaitong.bean;
 public class MsgEntity {
     private String msg;
     private int type;
+    private Object object; //可用于各类ID传参
 
     public MsgEntity(String msg, int type) {
         this.msg = msg;
@@ -10,6 +11,20 @@ public class MsgEntity {
     }
 
     public MsgEntity() {
+    }
+
+    public MsgEntity(String msg, int type, Object object) {
+        this.msg = msg;
+        this.type = type;
+        this.object = object;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
     }
 
     public int getType() {

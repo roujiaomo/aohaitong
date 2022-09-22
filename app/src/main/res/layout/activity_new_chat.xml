@@ -95,21 +95,32 @@
                 app:layout_constraintLeft_toRightOf="@+id/img_broad"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <!--        <com.scwang.smart.refresh.layout.SmartRefreshLayout-->
-        <!--            android:id="@+id/refreshLayout"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="0dp"-->
-        <!--            >-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_content"
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingTop="5dp"
             app:layout_constraintBottom_toTopOf="@+id/cons_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cons_head" />
-        <!--        </com.scwang.smart.refresh.layout.SmartRefreshLayout>-->
+            app:layout_constraintTop_toBottomOf="@id/cons_head">
+
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:id="@+id/refresh_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srlTextPulling="@string/refresh_header_pulling"
+                app:srlTextRelease="@string/refresh_header_release"
+                app:srlTextFinish="@string/refresh_header_finish"
+                app:srlTextRefreshing="@string/refresh_header_refreshing" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cons_bottom"
             android:layout_width="0dp"

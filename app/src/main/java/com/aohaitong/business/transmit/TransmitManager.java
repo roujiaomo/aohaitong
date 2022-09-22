@@ -83,7 +83,7 @@ public class TransmitManager {
                     bean.setMsg("");
                 }
                 DBManager.getInstance(MyApplication.getContext()).updateMsg(bean);
-                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_SERVICE_REFRESH));
+                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_SERVICE_REFRESH, bean));
                 EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
             }
 
@@ -94,7 +94,7 @@ public class TransmitManager {
                     bean.setMsg("");
                 }
                 DBManager.getInstance(MyApplication.getContext()).updateMsg(bean);
-                EventBus.getDefault().post(new MsgEntity(reason, StatusConstant.EVENT_CHAT_SERVICE_REFRESH));
+                EventBus.getDefault().post(new MsgEntity(reason, StatusConstant.EVENT_CHAT_SERVICE_REFRESH, bean));
                 EventBus.getDefault().post(new MsgEntity(reason, StatusConstant.TYPE_CHAT_REFRESH));
 
             }
