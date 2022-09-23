@@ -3,12 +3,8 @@ package com.aohaitong.ui.chat.chat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import com.aohaitong.bean.entity.ChatMsgBusinessBean
-import com.aohaitong.bean.entity.DeleteChatMsgParams
-import com.aohaitong.bean.entity.GetChatListParams
-import com.aohaitong.bean.entity.VoicePlayParams
+import com.aohaitong.bean.entity.*
 import com.aohaitong.domain.usecase.DeleteChatMsgUseCase
-import com.aohaitong.domain.usecase.DeleteGroupChatMsgUseCase
 import com.aohaitong.domain.usecase.GetChatHistoryListByPageUseCase
 import com.aohaitong.domain.usecase.GetGroupChatHistoryListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,13 +16,12 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
     private val getChatHistoryListByPageUseCase: GetChatHistoryListByPageUseCase,
     private val getGroupChatHistoryListUseCase: GetGroupChatHistoryListUseCase,
-    private val deleteGroupChatMsgUseCase: DeleteGroupChatMsgUseCase,
     private val deleteChatMsgUseCase: DeleteChatMsgUseCase
 ) : ViewModel() {
 
 
-    private val _doServiceRefreshGroupAction = MutableLiveData<Long>()
-    val doServiceRefreshGroupResponse = _doServiceRefreshGroupAction.switchMap {
+    private val _getGroupChatListByPageAction = MutableLiveData<GetGroupChatListParams>()
+    val getGroupChatListByPageResponse = _getGroupChatListByPageAction.switchMap {
         getGroupChatHistoryListUseCase(it)
     }
 
@@ -39,11 +34,6 @@ class ChatViewModel @Inject constructor(
     private val _handleDeleteMessageAction = MutableLiveData<DeleteChatMsgParams>()
     val handleDeleteMessageResponse = _handleDeleteMessageAction.switchMap {
         deleteChatMsgUseCase(it)
-    }
-
-    private val _handleDeleteGroupMessageAction = MutableLiveData<DeleteChatMsgParams>()
-    val handleDeleteGroupMessageResponse = _handleDeleteGroupMessageAction.switchMap {
-        deleteGroupChatMsgUseCase(it)
     }
 
     private val _deleteItemClickAction = MutableSharedFlow<DeleteChatMsgParams>(
@@ -95,22 +85,15 @@ class ChatViewModel @Inject constructor(
     /**
      * 群聊刷新消息状态
      */
-    fun doServiceGroupRefresh(groupId: Long) {
-        _doServiceRefreshGroupAction.value = groupId
+    fun getGroupChatListByPage(getGroupChatListParams: GetGroupChatListParams) {
+        _getGroupChatListByPageAction.value = getGroupChatListParams
     }
 
     /**
-     * 删除私聊单条聊天记录
+     * 删除单条聊天记录
      */
     fun handleDeleteMsg(deleteChatMsgParams: DeleteChatMsgParams) {
         _handleDeleteMessageAction.value = deleteChatMsgParams
-    }
-
-    /**
-     * 删除群聊单条聊天记录
-     */
-    fun handleDeleteGroupMsg(deleteChatMsgParams: DeleteChatMsgParams) {
-        _handleDeleteGroupMessageAction.value = deleteChatMsgParams
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.aohaitong.db;
 
+import static com.aohaitong.constant.NumConstant.CHAT_MSG_OFFSET;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,6 +21,7 @@ import com.aohaitong.bean.MessageBean;
 import com.aohaitong.constant.StatusConstant;
 import com.aohaitong.ui.model.ContactsDetailBean;
 import com.aohaitong.utils.DateUtil;
+import com.aohaitong.utils.SPUtil;
 import com.aohaitong.utils.StringUtil;
 
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -140,7 +143,7 @@ public class DBManager {
         ChatMsgBeanDao myDao = daoSession.getChatMsgBeanDao();
         List<ChatMsgBean> beans = myDao.queryBuilder().where(ChatMsgBeanDao.Properties.Telephone.eq(telNum),
                 ChatMsgBeanDao.Properties.NowLoginTel.eq(MyApplication.TEL))
-                .offset(pageNum * 10).limit(10)
+                .offset(pageNum * CHAT_MSG_OFFSET).limit(CHAT_MSG_OFFSET)
                 .orderDesc(ChatMsgBeanDao.Properties.Time).list();
 
         Collections.reverse(beans);
@@ -860,6 +863,32 @@ public class DBManager {
     }
 
     /**
+     * 获取群聊对应昵称
+     *
+     * @param tel
+     * @return
+     */
+    public String getGroupShowName(String tel) {
+        if (tel.equals(MyApplication.TEL + "")) {
+            return SPUtil.instance.getString(MyApplication.TEL + "");
+        } else {
+            FriendBean friendBean = selectFriend(tel);
+            if (friendBean != null) {
+                return StringUtil.getFirstNotNullString(
+                        new String[]{
+                                friendBean.getNickName(),
+                                friendBean.getName(),
+                                friendBean.getTelephone()
+                        }
+                );
+            } else {
+                return tel;
+            }
+        }
+    }
+
+
+    /**
      * 检验手机号是否已经是好友或者有了好友申请
      *
      * @return 只要有值就返回1
@@ -1079,6 +1108,26 @@ public class DBManager {
                 chatMsgBean.setStatus(StatusConstant.READ_READED);
             }
         }
+        chatMsgBeanDao.updateInTx(chatMsgBeanList);
+        return chatMsgBeanList;
+    }
+
+
+    /**
+     * 获取分页群聊聊天记录
+     */
+    public List<ChatMsgBean> getGroupMessageListByPage(Long groupId, int pageNum) {
+        ChatMsgBeanDao chatMsgBeanDao = new DaoMaster(getWritableDatabase()).newSession().getChatMsgBeanDao();
+        List<ChatMsgBean> chatMsgBeanList = chatMsgBeanDao.queryBuilder()
+                .where(ChatMsgBeanDao.Properties.GroupId.eq(groupId))
+                .offset(pageNum * CHAT_MSG_OFFSET).limit(CHAT_MSG_OFFSET)
+                .orderDesc(ChatMsgBeanDao.Properties.Time).list();
+        for (ChatMsgBean chatMsgBean : chatMsgBeanList) {
+            if (chatMsgBean.getSendType() == StatusConstant.SEND_TYPE_RECEIVER) {
+                chatMsgBean.setStatus(StatusConstant.READ_READED);
+            }
+        }
+        Collections.reverse(chatMsgBeanList);
         chatMsgBeanDao.updateInTx(chatMsgBeanList);
         return chatMsgBeanList;
     }

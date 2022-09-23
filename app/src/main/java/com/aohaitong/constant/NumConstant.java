@@ -10,7 +10,7 @@ public class NumConstant {
     public static int COMMON_FAIL_TIME = 60;
     public static long HEARTBEAT_COMPARE_TIME = 1609430400000L;//小于这个时间,则取系统时间
     public static int SOCKET_CONNECT_CHECK_COUNT = 10;
-
+    public static int CHAT_MSG_OFFSET = 10;
     public static int getFailTime() {
         return 60;
     }

@@ -34,7 +34,8 @@ public class StatusConstant {
 
     //刷新聊天界面
     public static int EVENT_CHAT_SERVICE_REFRESH = 1001; //通知消息页面刷新
-    public static int EVENT_CHAT_RECEIVE_MESSAGE = 1002; //通知消息页面刷新
+    public static int EVENT_CHAT_RECEIVE_MESSAGE = 1002; //通知消息页面刷新(私聊/群聊发的消息)
+    public static int EVENT_CHAT_RECEIVE_GROUP_NOTIFY = 1004; //通知消息页面刷新(私聊/群聊发的消息)
     public static int EVENT_CHAT_RECEIVE_USER_LOGIN_STATUS = 1003; //通知消息页面登录状态更新
 
 

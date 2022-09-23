@@ -12,8 +12,6 @@ import com.aohaitong.db.DBManager;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
-
 /**
  * 进行聊天管理
  * 相互确认通信都在这里,只有最终结果是成功失败调用接口通知
@@ -41,18 +39,6 @@ public class TransmitManager {
         } else {
             sendMsg(bean);
         }
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(() -> sendFail(bean), NumConstant.getFailTime() * 1000L);
-    }
-
-    /**
-     * 发送文本消息
-     *
-     * @param bean 消息实体类
-     */
-    public void sendVideo(ChatMsgBean bean, List<String> photoDataList) {
-        //上传服务器
-        sendVideoMsg(bean, photoDataList);
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> sendFail(bean), NumConstant.getFailTime() * 1000L);
     }
@@ -101,33 +87,6 @@ public class TransmitManager {
         });
     }
 
-    private void sendVideoMsg(ChatMsgBean bean, List<String> photoDataList) {
-        BusinessController.sendVideoMessage(bean, photoDataList, new ISendListener() {
-            @Override
-            public void sendSuccess() {
-                bean.setStatus(StatusConstant.SEND_SUCCESS);
-                if (bean.getMessageType() != StatusConstant.TYPE_TEXT_MESSAGE) {
-                    bean.setMsg("");
-                }
-                DBManager.getInstance(MyApplication.getContext()).updateMsg(bean);
-                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_SERVICE_REFRESH));
-                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-            }
-
-            @Override
-            public void sendFail(String reason) {
-                bean.setStatus(StatusConstant.SEND_FAIL);
-                if (bean.getMessageType() != StatusConstant.TYPE_TEXT_MESSAGE) {
-                    bean.setMsg("");
-                }
-                DBManager.getInstance(MyApplication.getContext()).updateMsg(bean);
-                EventBus.getDefault().post(new MsgEntity(reason, StatusConstant.EVENT_CHAT_SERVICE_REFRESH));
-                EventBus.getDefault().post(new MsgEntity(reason, StatusConstant.TYPE_CHAT_REFRESH));
-
-            }
-        });
-    }
-
     /**
      * 发送群聊消息
      */
@@ -140,7 +99,7 @@ public class TransmitManager {
                     bean.setMsg("");
                 }
                 DBManager.getInstance(MyApplication.getContext()).updateMsg(bean);
-                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_SERVICE_REFRESH));
+                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_SERVICE_REFRESH, bean));
                 EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
             }
 
@@ -151,7 +110,7 @@ public class TransmitManager {
                     bean.setMsg("");
                 }
                 DBManager.getInstance(MyApplication.getContext()).updateMsg(bean);
-                EventBus.getDefault().post(new MsgEntity(reason, StatusConstant.EVENT_CHAT_SERVICE_REFRESH));
+                EventBus.getDefault().post(new MsgEntity(reason, StatusConstant.EVENT_CHAT_SERVICE_REFRESH, bean));
                 EventBus.getDefault().post(new MsgEntity(reason, StatusConstant.TYPE_CHAT_REFRESH));
 
             }

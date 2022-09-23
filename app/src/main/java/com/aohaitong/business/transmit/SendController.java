@@ -431,8 +431,6 @@ public class SendController {
                             public void run() {
                                 super.run();
                                 insertCreateGroupChatMsg(15, msg15, msg15.getGroupId());
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                             }
                         }.start();
                     } else {
@@ -467,8 +465,6 @@ public class SendController {
                                 if (!groupIdList.contains(msg16.getGroupId().toString())) {
                                     groupIdList.add(msg16.getGroupId().toString());
                                 }
-                                EventBus.getDefault().post(new GroupEventEntity(16, ""));
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
                             }
                         }.start();
                         BusinessController.sendJoinGroupAnswer(true, null, msg16, communicationMessage.getSequenceNumber());
@@ -500,8 +496,6 @@ public class SendController {
                                         if (!groupIdList.contains(msg16.getGroupId().toString())) {
                                             groupIdList.add(msg16.getGroupId().toString());
                                         }
-                                        EventBus.getDefault().post(new GroupEventEntity(16, ""));
-                                        EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
                                     }
                                 }.start();
                             }
@@ -529,8 +523,6 @@ public class SendController {
                                         if (!groupIdList.contains(msg16.getGroupId().toString())) {
                                             groupIdList.add(msg16.getGroupId().toString());
                                         }
-                                        EventBus.getDefault().post(new GroupEventEntity(16, ""));
-                                        EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
                                     }
                                 }.start();
                             }
@@ -547,8 +539,6 @@ public class SendController {
                             public void run() {
                                 super.run();
                                 insertCreateGroupChatMsg(17, msg17, msg17.getGroupId());
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                             }
                         }.start();
                     }
@@ -563,8 +553,6 @@ public class SendController {
                                 public void run() {
                                     super.run();
                                     insertCreateGroupChatMsg(17, msg17, msg17.getGroupId());
-                                    EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                                    EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                                 }
                             }.start();
                         }
@@ -583,8 +571,6 @@ public class SendController {
                             public void run() {
                                 super.run();
                                 insertRemoveGroupChatMsg(18, msg18, msg18.getGroupId());
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                             }
                         }.start();
                     } else {
@@ -627,7 +613,6 @@ public class SendController {
                         DBManager.getInstance(MyApplication.getContext()).delMsgByTel(msg20.getGroupId().toString(), true);
                         EventBus.getDefault().post(new GroupEventEntity(20, msg20.getGroupId().toString()));
                         EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                        EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                         //也应删除对应聊天表及聊天记录
                         doListenerSuccess(communicationMessage.getSequenceNumber());
                     } else {
@@ -644,8 +629,6 @@ public class SendController {
                             public void run() {
                                 super.run();
                                 insertRemoveGroupChatMsg(21, msg21, msg21.getGroupId());
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                             }
                         }.start();
                     }
@@ -659,8 +642,6 @@ public class SendController {
                             public void run() {
                                 super.run();
                                 insertRemoveGroupChatMsg(21, msg21, msg21.getGroupId());
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                             }
                         }.start();
                     }
@@ -706,8 +687,6 @@ public class SendController {
                             public void run() {
                                 super.run();
                                 insertCreateGroupChatMsg(30, msg30, msg30.getGroupId());
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                             }
                         }.start();
                     } else {
@@ -725,8 +704,6 @@ public class SendController {
                             public void run() {
                                 super.run();
                                 insertCreateGroupChatMsg(31, msg31, msg31.getGroupId());
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                             }
                         }.start();
                     }
@@ -741,8 +718,6 @@ public class SendController {
                             public void run() {
                                 super.run();
                                 insertCreateGroupChatMsg(31, msg31, msg31.getGroupId());
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-                                EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
                             }
                         }.start();
                     }
@@ -938,7 +913,8 @@ public class SendController {
         if (!TextUtils.isEmpty(msg27.getGroupId().toString())) {
             bean.setIsGroup(true);
         }
-        bean.setTelephone(msg27.getSourceAccount() + "");
+        //暂时存储昵称
+        bean.setTelephone(DBManager.getInstance(MyApplication.getContext()).getTelephoneShowName(msg27.getSourceAccount() + ""));
         if (msg27.getMsgType() == 0) {
             bean.setMsg(msg27.getData());
         } else {
@@ -1002,7 +978,7 @@ public class SendController {
             NotificationUtil.getInstance().playVibrator();
         }
         EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
-        EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE));
+        EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE, bean));
 
         Log.e(CommonConstant.LOGCAT_TAG, "27号消息接收成功" + new Gson().toJson(msg27));
     }
@@ -1126,6 +1102,15 @@ public class SendController {
         }
         if (!isExistMessage && !bean.getMsg().isEmpty()) {
             DBManager.getInstance(MyApplication.getContext()).createMsg(bean);
+            EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
+            switch (msgId) {
+                case 15:
+                case 17:
+                case 30:
+                case 31:
+                    EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE, bean));
+                    break;
+            }
         }
     }
 
@@ -1213,6 +1198,8 @@ public class SendController {
         }
         if (!isExistMessage && !bean.getMsg().isEmpty()) {
             DBManager.getInstance(MyApplication.getContext()).createMsg(bean);
+            EventBus.getDefault().post(new MsgEntity("", StatusConstant.TYPE_CHAT_REFRESH));
+            EventBus.getDefault().post(new MsgEntity("", StatusConstant.EVENT_CHAT_RECEIVE_MESSAGE, bean));
         }
     }
 

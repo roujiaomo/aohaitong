@@ -24,11 +24,6 @@ class DataBaseRepository @Inject constructor(
     fun getFriendList(searchStr: String): List<FriendBean> =
         DBManager.getInstance(context).selectAllFriend(searchStr)
 
-
-    //获取聊天记录(NewChatActivity)
-    fun getChatHistoryList(userTel: String): List<ChatMsgBean> =
-        DBManager.getInstance(context).getNewsMsg(userTel)
-
     //获取分页聊天记录(NewChatActivity)
     fun getChatHistoryListByPage(userTel: String, pageNum: Int): List<ChatMsgBean> =
         DBManager.getInstance(context).getNewsMsgByPage(userTel, pageNum)
@@ -45,6 +40,11 @@ class DataBaseRepository @Inject constructor(
     //获取群聊聊天记录(NewChatActivity)
     fun getGroupChatHistoryList(groupId: Long): List<ChatMsgBean> =
         DBManager.getInstance(context).getGroupMessageByGroupId(groupId)
+
+    //获取分页群聊聊天记录(NewChatActivity)
+    fun getGroupChatListByPage(groupId: Long, pageNum: Int): List<ChatMsgBean> =
+        DBManager.getInstance(context).getGroupMessageListByPage(groupId, pageNum)
+
 
     //获取我的群聊(GroupDetailActivity)
     fun getGroupInfo(groupId: String): GroupBean =
