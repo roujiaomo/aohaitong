@@ -10,6 +10,7 @@ import com.aohaitong.bean.FriendBean;
 import com.aohaitong.bean.GroupBean;
 import com.aohaitong.bean.GroupEventEntity;
 import com.aohaitong.bean.MsgEntity;
+import com.aohaitong.bean.entity.ShipInfoBean;
 import com.aohaitong.business.IPController;
 import com.aohaitong.business.request.HeartQueueManager;
 import com.aohaitong.business.request.MsgRequest;
@@ -62,6 +63,7 @@ import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage32;
 import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage33;
 import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage34;
 import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage35;
+import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage38;
 import com.aohaitong.utils.offshore.sentence.JHDSentence;
 import com.aohaitong.utils.offshore.util.CommVdesMessageUtil;
 import com.aohaitong.utils.offshore.util.JhdAnalysisGroupUtil;
@@ -217,7 +219,12 @@ public class SendController {
                     OffshoreCommunicationMessage01 o = (OffshoreCommunicationMessage01) communicationMessage;
                     if (o.getDestinationAccount() != MyApplication.TEL)
                         return;
-                    if (StatusConstant.SUCCESS.equals(o.getData())) {
+                    if (o.getData().contains(StatusConstant.SUCCESS)) {
+                        if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
+                            String[] lonLat = o.getData().split(",")[1].split("/");
+                            MyApplication.localLon = Double.parseDouble(lonLat[0]);
+                            MyApplication.localLat = Double.parseDouble(lonLat[1]);
+                        }
                         doListenerSuccess(communicationMessage.getSequenceNumber());
                     } else {
                         doListenerError(communicationMessage.getSequenceNumber(), "登录失败");
@@ -822,7 +829,7 @@ public class SendController {
                         return;
                     //更新本地库 回复应答
                     handleUpdateGroupInfo(msg33.getData());
-                } else if (msgID == StatusConstant.MSG_SEND_GET_USER_LOGIN_STATUS) {//更新群组信息
+                } else if (msgID == StatusConstant.MSG_SEND_GET_USER_LOGIN_STATUS) {//获取聊天人登录状态
                     OffshoreCommunicationMessage34 msg34 = (OffshoreCommunicationMessage34) communicationMessage;
                     if (msg34.getDestinationAccount() != MyApplication.TEL) {
                         return;
@@ -833,13 +840,31 @@ public class SendController {
                     } else {
                         doListenerError(communicationMessage.getSequenceNumber(), "获取失败");
                     }
-                } else if (msgID == StatusConstant.MSG_RECEIVE_USER_LOGIN_STATUS) {//更新群组信息
+                } else if (msgID == StatusConstant.MSG_RECEIVE_USER_LOGIN_STATUS) {//更新聊天人登录状态
                     OffshoreCommunicationMessage35 msg35 = (OffshoreCommunicationMessage35) communicationMessage;
                     if (msg35.getDestinationAccount() != MyApplication.TEL) {
                         return;
                     }
                     Log.e(CommonConstant.LOGCAT_TAG, "收到35号消息" + new Gson().toJson(msg35));
                     EventBus.getDefault().post(new MsgEntity(msg35.getData(), StatusConstant.EVENT_CHAT_RECEIVE_USER_LOGIN_STATUS));
+                } else if (msgID == StatusConstant.MSG_REFRESH_SHIPS_INFO) {//更新海图上船舶信息
+                    OffshoreCommunicationMessage38 msg38 = (OffshoreCommunicationMessage38) communicationMessage;
+                    if (msg38.getDestinationAccount() != MyApplication.TEL) {
+                        return;
+                    }
+                    Log.e(CommonConstant.LOGCAT_TAG, "收到38号消息" + new Gson().toJson(msg38));
+                    String[] shipInfo = msg38.getData().split("/");
+                    if (shipInfo.length < 5) {//船舶信息不全
+                        return;
+                    }
+                    Log.e(CommonConstant.LOGCAT_TAG, "发送38号消息" + new Gson().toJson(msg38));
+                    ShipInfoBean shipInfoBean = new ShipInfoBean(
+                            shipInfo[0],
+                            shipInfo[1],
+                            shipInfo[2],
+                            shipInfo[3],
+                            shipInfo[4]);
+                    EventBus.getDefault().postSticky(shipInfoBean);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.aohaitong.ui.main
 
 import android.Manifest
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -19,13 +20,20 @@ import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.LocationSource
 import com.amap.api.maps.LocationSource.OnLocationChangedListener
 import com.amap.api.maps.model.*
+import com.aohaitong.MyApplication
 import com.aohaitong.R
 import com.aohaitong.base.BaseFragment
 import com.aohaitong.bean.MsgEntity
+import com.aohaitong.bean.entity.ShipInfoBean
 import com.aohaitong.business.IPController
 import com.aohaitong.constant.StatusConstant
 import com.aohaitong.databinding.FragmentSeaChartBinding
+import com.aohaitong.kt.common.onClick
+import com.aohaitong.ui.seachart.ShipDetailActivity
 import com.aohaitong.utils.PermissionUtils
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
@@ -43,6 +51,7 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
     private lateinit var mLocationOption: AMapLocationClientOption
     private var mListener: OnLocationChangedListener? = null
     private var markerList = mutableListOf<Marker>()
+    private var markerInfoList = mutableListOf<ShipInfoBean>()
 
 
     override fun setLayout() = R.layout.fragment_sea_chart
@@ -64,23 +73,107 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
             MyLocationStyle() //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE)//定位一次，且将视角移动到地图中心点。
         myLocationStyle.interval(5000) //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        myLocationStyle.showMyLocation(false)
         aMap.setLocationSource(this)
-//        aMap.isMyLocationEnabled = true // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+        if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_MQ) {
+            myLocationStyle.showMyLocation(true)
+            aMap.isMyLocationEnabled = true // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+            aMap.uiSettings.isMyLocationButtonEnabled = true
+        }
         aMap.myLocationStyle = myLocationStyle //设置定位蓝点的Style
-        aMap.uiSettings.isMyLocationButtonEnabled = true
+        EventBus.getDefault().register(this)
     }
 
     override fun initData() {
-
+        if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
+            addLocalMarker()
+        }
     }
 
     override fun initEvent() {
+        //设置Marker点击事件
+        val mMarkerListener =
+            AMap.OnMarkerClickListener { marker ->
+                if (marker.isInfoWindowShown) {
+                    marker.hideInfoWindow()
+                } else {
+                    marker.showInfoWindow()
+                }
+                true // 返回:true 表示点击marker 后marker 不会移动到地图中心；返回false 表示点击marker 后marker 会自动移动到地图中心
+            }
+        aMap.setOnMarkerClickListener(mMarkerListener)
+
+        val mAMapSpotAdapter: InfoWindowAdapter = object : InfoWindowAdapter {
+            override fun getInfoWindow(marker: Marker): View? {
+                if ("" == marker.title || marker.title == null) {
+                    return null
+                }
+                val infoContent: View =
+                    View.inflate(requireContext(), R.layout.layout_map_marker_detail, null)
+                handleMarkerDetail(marker, infoContent)
+                return infoContent
+            }
+
+            override fun getInfoContents(marker: Marker): View? {
+                if ("" == marker.title || marker.title == null) {
+                    return null
+                }
+                val infoContent: View =
+                    layoutInflater.inflate(R.layout.layout_map_marker_detail, null)
+                handleMarkerDetail(marker, infoContent)
+                return infoContent
+            }
+
+            private fun handleMarkerDetail(marker: Marker, view: View) {
+                val tvMmsi = view.findViewById<TextView>(R.id.tv_mmsi)
+                val tvLon = view.findViewById<TextView>(R.id.tv_lon)
+                val tvLat = view.findViewById<TextView>(R.id.tv_lat)
+                val tvShipSpeed = view.findViewById<TextView>(R.id.tv_ship_speed)
+                val tvShipHeading = view.findViewById<TextView>(R.id.tv_ship_heading)
+                val tvShipMember = view.findViewById<TextView>(R.id.tv_ship_member)
+                val currentMarker = markerList.find {
+                    it.title == marker.title
+                }
+                currentMarker?.let { clickMarker ->
+                    val markerInfoBean = markerInfoList.find {
+                        it.mmsi == clickMarker.title
+                    }
+                    markerInfoBean?.let { currentMarkerInfoBean ->
+                        tvMmsi.text = getString(R.string.sea_map_mmsi) + currentMarkerInfoBean.mmsi
+                        tvLon.text = getString(R.string.sea_map_lon) + currentMarkerInfoBean.lon
+                        tvLat.text = getString(R.string.sea_map_lat) + currentMarkerInfoBean.lat
+                        tvShipSpeed.text =
+                            getString(R.string.sea_map_ship_speed) + currentMarkerInfoBean.speed
+                        tvShipHeading.text =
+                            getString(R.string.sea_map_ship_heading) + currentMarkerInfoBean.heading
+                        tvShipMember.onClick {
+                            startActivity(Intent(requireActivity(), ShipDetailActivity::class.java))
+                        }
+                    }
+                }
+
+
+            }
+        }
+        aMap.setInfoWindowAdapter(mAMapSpotAdapter)
 
     }
 
     override fun onReceiveData(msgEntity: MsgEntity?) {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onEvent(shipInfoBean: ShipInfoBean) {
+        val marker = markerList.find {
+            it.title == shipInfoBean.mmsi
+        }
+        //未添加过的Marker添加进管理集合
+        if (marker == null) {//Marker不存在
+            addMarker(shipInfoBean)
+        } else {
+            //已添加过的Marker更新位置信息
+            marker.position = LatLng(shipInfoBean.lat.toDouble(), shipInfoBean.lon.toDouble())
+        }
     }
 
     private fun location() {
@@ -93,9 +186,7 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
         //设置是否返回地址信息（默认返回地址信息）
         mLocationOption.isNeedAddress = true
         //设置是否只定位一次,默认为false
-        mLocationOption.isOnceLocation = false
-        //设置是否允许模拟位置,默认为false，不允许模拟位置
-        mLocationOption.isMockEnable = true
+        mLocationOption.isOnceLocation = true
         //设置定位间隔,单位毫秒,默认为2000ms
         mLocationOption.interval = 10 * 1000
         mLocationClient?.let {
@@ -114,24 +205,14 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
 
     override fun onResume() {
         super.onResume()
-        if (hasLocationPermission()) {
-            mBinding.mapView.onResume()
-            showMarker()
-        } else {
+        mBinding.mapView.onResume()
+        if (!hasLocationPermission()) {
             requestLocationPermission()
         }
     }
 
-    private fun showMarker() {
-        var latLng: LatLng
-        var title = ""
-        if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
-            latLng = LatLng(38.7188, 121.3806)
-            title = "船"
-        } else {
-            latLng = LatLng(38.8738, 120.632)
-            title = "岸"
-        }
+    private fun addMarker(shipInfoBean: ShipInfoBean) {
+        val latLng = LatLng(shipInfoBean.lat.toDouble(), shipInfoBean.lon.toDouble())
         val marker: Marker =
             aMap.addMarker(
                 MarkerOptions()
@@ -142,59 +223,31 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
                                 .decodeResource(resources, R.drawable.ic_ship_png)
                         )
                     )
-                    .title("mmsi")
-                    .snippet("DefaultMarker")
+                    .title(shipInfoBean.mmsi)
+                    .snippet("")
             )
-        var cameraUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition(latLng, 8F, 0F, 0F))
-        aMap.moveCamera(cameraUpdate) //地图移向指定区域
-        val mMarkerListener =
-            AMap.OnMarkerClickListener { marker ->
-                if (marker.isInfoWindowShown) {
-                    marker.hideInfoWindow()
-                } else {
-                    marker.showInfoWindow()
-                }
-                true // 返回:true 表示点击marker 后marker 不会移动到地图中心；返回false 表示点击marker 后marker 会自动移动到地图中心
-            }
-        aMap.setOnMarkerClickListener(mMarkerListener)
+        markerList.add(marker)
+        markerInfoList.add(shipInfoBean)
+    }
 
-        val mAMapSpotAdapter: InfoWindowAdapter = object : InfoWindowAdapter {
-            override fun getInfoWindow(marker: Marker): View? {
-                if ("" == marker.title || marker.title == null) {
-                    return null
-                }
-                val infoContent: View =
-                    layoutInflater.inflate(R.layout.layout_map_marker_detail, null)
-                handleMarkerDetail(marker, infoContent)
-                return infoContent
-            }
-
-            override fun getInfoContents(marker: Marker): View? {
-                if ("" == marker.title || marker.title == null) {
-                    return null
-                }
-                val infoContent: View =
-                    layoutInflater.inflate(R.layout.layout_map_marker_detail, null)
-                handleMarkerDetail(marker, infoContent)
-                return infoContent
-            }
-
-            private fun handleMarkerDetail(marker: Marker, view: View) {
-                Log.d("wwwww", "经度: ${marker.position}")
-                val tvMmsi = view.findViewById<TextView>(R.id.tv_mmsi)
-                val tvLon = view.findViewById<TextView>(R.id.tv_lon)
-                val tvLat = view.findViewById<TextView>(R.id.tv_lat)
-                val tvShipSpeed = view.findViewById<TextView>(R.id.tv_ship_speed)
-                val tvShipHeading = view.findViewById<TextView>(R.id.tv_ship_heading)
-                tvMmsi.text = getString(R.string.sea_map_mmsi) + 412225667
-                tvLon.text = getString(R.string.sea_map_lon) + 38.7188
-                tvLat.text = getString(R.string.sea_map_lat) + 121.3806
-                tvShipSpeed.text = getString(R.string.sea_map_ship_speed) + 9.9
-                tvShipHeading.text = getString(R.string.sea_map_ship_heading) + 94
-            }
-        }
-        aMap.setInfoWindowAdapter(mAMapSpotAdapter)
-
+    /**
+     * 船端登录
+     */
+    private fun addLocalMarker() {
+        val latLng = LatLng(MyApplication.localLat, MyApplication.localLon)
+        aMap.addMarker(
+            MarkerOptions()
+                .position(latLng)
+                .icon(
+                    BitmapDescriptorFactory.fromBitmap(
+                        BitmapFactory
+                            .decodeResource(resources, R.drawable.ic_ship_green_png)
+                    )
+                )
+                .title("我的位置")
+                .snippet("")
+        )
+        aMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition(latLng, 12F, 0f, 0f)))
     }
 
     override fun onPause() {
@@ -266,38 +319,11 @@ class SeaChartFragment : BaseFragment(), AMapLocationListener, EasyPermissions.P
      */
     override fun onLocationChanged(aMapLocation: AMapLocation?) {
         if (mListener != null && aMapLocation != null) {
-            if (aMapLocation != null && aMapLocation.errorCode === 0) {
+            if (aMapLocation.errorCode == 0) {
                 mListener?.onLocationChanged(aMapLocation) // 显示系统小蓝点
-                var latLng: LatLng
-                var title = ""
-                if (IPController.CONNECT_TYPE == StatusConstant.CONNECT_SOCKET) {
-                    latLng = LatLng(38.7188, 121.3806)
-                    title = "船"
-                } else {
-                    latLng = LatLng(38.8738, 120.632)
-                    title = "岸"
-                }
-                val marker: Marker =
-                    aMap.addMarker(
-                        MarkerOptions()
-                            .position(latLng)
-                            .icon(
-                                BitmapDescriptorFactory.fromBitmap(
-                                    BitmapFactory
-                                        .decodeResource(resources, R.drawable.ic_ship_png)
-                                )
-                            )
-                            .title(title)
-                            .snippet("DefaultMarker")
-                    )
-//                marker.showInfoWindow()
-                var cameraUpdate =
-                    CameraUpdateFactory.newCameraPosition(CameraPosition(latLng, 12F, 0F, 0F))
-                aMap.moveCamera(cameraUpdate) //地图移向指定区域
                 Log.d("wwwww", "地址: " + aMapLocation.address)
                 Log.d("wwwww", "经纬度: " + aMapLocation.longitude)
                 Log.d("wwwww", "经纬度: " + aMapLocation.latitude)
-
             } else {
                 val errText = "定位失败," + aMapLocation.errorCode
                     .toString() + ": " + aMapLocation.errorInfo

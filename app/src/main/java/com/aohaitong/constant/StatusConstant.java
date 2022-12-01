@@ -78,6 +78,10 @@ public class StatusConstant {
     public static int MSG_RECEIVE_GET_GROUP_LIST = 33;
     public static int MSG_SEND_GET_USER_LOGIN_STATUS = 34;
     public static int MSG_RECEIVE_USER_LOGIN_STATUS = 35;
+    public static int MSG_SEND_GET_SHIP_MEMBER = 36;
+    public static int MSG_RECEIVE_GET_SHIP_MEMBER = 37;
+    public static int MSG_REFRESH_SHIPS_INFO = 38;
+
 
     public static String SUCCESS = "0";
     public static String FAIL = "1";

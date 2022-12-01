@@ -44,6 +44,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:label">
         <activity
+            android:name=".ui.seachart.ShipDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.group.modify_group_name.ModifyGroupNameActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
@@ -167,7 +170,6 @@
             android:name=".ui.camera.CameraVideoActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" /> <!-- 配置APP ID -->
-
         <activity
             android:name="cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity"
             android:exported="true"
@@ -193,7 +195,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
 
         <receiver
             android:name=".worker.MyMessageReceiver"

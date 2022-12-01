@@ -50,6 +50,9 @@ public class MyApplication extends Application implements Configuration.Provider
     public static Session session;
     public static boolean isHaveLogin = false;
 
+    public static Double localLon = 0.0;
+    public static Double localLat = 0.0;
+
     public MyApplication() {
         context = this;
     }
@@ -69,7 +72,6 @@ public class MyApplication extends Application implements Configuration.Provider
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
         initSkinLoader();
-//        initBaiduMap();
         new DoKit.Builder(this).build();
         setForeground();
         WorkManager.getInstance(this).cancelAllWork();
@@ -165,12 +167,10 @@ public class MyApplication extends Application implements Configuration.Provider
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                Log.i("qqqqq", "onActivityCreated");
             }
 
             @Override
             public void onActivityStarted(Activity activity) {
-                Log.i("qqqqq", "onActivityStarted");
             }
 
             @Override
@@ -180,7 +180,6 @@ public class MyApplication extends Application implements Configuration.Provider
 
             @Override
             public void onActivityPaused(Activity activity) {
-                Log.i("qqqqq", "onActivityPaused");
             }
 
             @Override
@@ -190,12 +189,10 @@ public class MyApplication extends Application implements Configuration.Provider
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                Log.i("qqqqq", "onActivitySaveInstanceState");
             }
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-                Log.i("qqqqq", "onActivityDestroyed");
             }
         });
     }

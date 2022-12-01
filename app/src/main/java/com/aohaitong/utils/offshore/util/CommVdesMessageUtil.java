@@ -49,6 +49,9 @@ import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage32;
 import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage33;
 import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage34;
 import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage35;
+import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage36;
+import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage37;
+import com.aohaitong.utils.offshore.message.OffshoreCommunicationMessage38;
 import com.aohaitong.utils.offshore.sentence.BHMSentence;
 import com.aohaitong.utils.offshore.sentence.JHDSentence;
 
@@ -244,6 +247,15 @@ public class CommVdesMessageUtil {
                 break;
             case 35:
                 message = offshoreCommunicationMessage35(encoder, (OffshoreCommunicationMessage35) offshoreCommunicationMessage);
+                break;
+            case 36:
+                message = offshoreCommunicationMessage36(encoder, (OffshoreCommunicationMessage36) offshoreCommunicationMessage);
+                break;
+            case 37:
+                message = offshoreCommunicationMessage37(encoder, (OffshoreCommunicationMessage37) offshoreCommunicationMessage);
+                break;
+            case 38:
+                message = offshoreCommunicationMessage38(encoder, (OffshoreCommunicationMessage38) offshoreCommunicationMessage);
                 break;
         }
         return message;
@@ -1041,6 +1053,68 @@ public class CommVdesMessageUtil {
         return dataEncrypt;
     }
 
+    /*
+     *
+     * 近海通信 36号报文封装
+     *
+     */
+    private static String offshoreCommunicationMessage36(SixbitEncoder encoder, OffshoreCommunicationMessage36 message36) throws Exception {
+        offshoreCommunicationAccountMessage(encoder, message36);
+        //备用
+        encoder.addVal(message36.getMmsi(), 32);
+        //备用
+        encoder.addVal(message36.getSpare(), 4);
+        //二进制数据
+        encoder.addUTF8DataString(message36.getData());
+
+        //16进制字符串
+        String data = encoder.encode4bit();
+
+        String dataEncrypt = AesEncryptDecrypt.encryptHexStrByHexStr(data);
+        return dataEncrypt;
+    }
+
+
+    /*
+     *
+     * 近海通信 37号报文封装
+     *
+     */
+    private static String offshoreCommunicationMessage37(SixbitEncoder encoder, OffshoreCommunicationMessage37 message37) throws Exception {
+        offshoreCommunicationAccountMessage(encoder, message37);
+        //备用
+        encoder.addVal(message37.getMmsi(), 32);
+        //备用
+        encoder.addVal(message37.getSpare(), 4);
+        //二进制数据
+        encoder.addUTF8DataString(message37.getData());
+
+        //16进制字符串
+        String data = encoder.encode4bit();
+
+        String dataEncrypt = AesEncryptDecrypt.encryptHexStrByHexStr(data);
+        return dataEncrypt;
+    }
+
+
+    /*
+     *
+     * 近海通信 38号报文封装
+     *
+     */
+    private static String offshoreCommunicationMessage38(SixbitEncoder encoder, OffshoreCommunicationMessage38 message38) throws Exception {
+        offshoreCommunicationAccountMessage(encoder, message38);
+        //备用
+        encoder.addVal(message38.getSpare(), 4);
+        //二进制数据
+        encoder.addUTF8DataString(message38.getData());
+        //16进制字符串
+        String data = encoder.encode4bit();
+        String dataEncrypt = AesEncryptDecrypt.encryptHexStrByHexStr(data);
+        return dataEncrypt;
+    }
+
+
     private static void offshoreCommunicationMessage(OffshoreCommunicationMessage message, BinArray sixbit) throws SixbitException {
         message.setSequenceNumber((int) sixbit.getVal(8));//序号
         message.setYear((int) sixbit.getVal(11));//年
@@ -1733,13 +1807,69 @@ public class CommVdesMessageUtil {
         OffshoreCommunicationMessage35 message35 = new OffshoreCommunicationMessage35();
         BinArray sixbit = encoder.getBinArray();
         if (sixbit.getLength() < 128) {
-            throw new MessageLengthException("Message " + 34 + " wrong length: " + sixbit.getLength());
+            throw new MessageLengthException("Message " + 35 + " wrong length: " + sixbit.getLength());
         }
         offshoreCommunicationAccountMessage(message35, sixbit);
         message35.setSpare((int) sixbit.getVal(4));  //备用
         message35.setData(encoder.encode16bit(128));  //二进制数据
         return message35;
     }
+
+    /*
+     *
+     * 近海通信 36号报文解析
+     *
+     */
+    private static OffshoreCommunicationMessage36 offshoreCommunicationMessage36(SixbitEncoder encoder) throws SixbitException, MessageLengthException {
+        OffshoreCommunicationMessage36 message36 = new OffshoreCommunicationMessage36();
+        BinArray sixbit = encoder.getBinArray();
+        if (sixbit.getLength() < 160) {
+            throw new MessageLengthException("Message " + 36 + " wrong length: " + sixbit.getLength());
+        }
+        offshoreCommunicationAccountMessage(message36, sixbit);
+        message36.setMmsi(sixbit.getVal(32));
+        message36.setSpare((int) sixbit.getVal(4));  //备用
+        message36.setData(encoder.encode16bit(160));  //二进制数据
+        return message36;
+    }
+
+
+    /*
+     *
+     * 近海通信 37号报文解析
+     *
+     */
+    private static OffshoreCommunicationMessage37 offshoreCommunicationMessage37(SixbitEncoder encoder) throws SixbitException, MessageLengthException {
+        OffshoreCommunicationMessage37 message37 = new OffshoreCommunicationMessage37();
+        BinArray sixbit = encoder.getBinArray();
+        if (sixbit.getLength() < 160) {
+            throw new MessageLengthException("Message " + 37 + " wrong length: " + sixbit.getLength());
+        }
+        offshoreCommunicationAccountMessage(message37, sixbit);
+        message37.setMmsi(sixbit.getVal(32));
+        message37.setSpare((int) sixbit.getVal(4));  //备用
+        message37.setData(encoder.encode16bit(160));  //二进制数据
+        return message37;
+    }
+
+
+    /*
+     *
+     * 近海通信 38号报文解析
+     *
+     */
+    private static OffshoreCommunicationMessage38 offshoreCommunicationMessage38(SixbitEncoder encoder) throws SixbitException, MessageLengthException {
+        OffshoreCommunicationMessage38 message38 = new OffshoreCommunicationMessage38();
+        BinArray sixbit = encoder.getBinArray();
+        if (sixbit.getLength() < 128) {
+            throw new MessageLengthException("Message " + 38 + " wrong length: " + sixbit.getLength());
+        }
+        offshoreCommunicationAccountMessage(message38, sixbit);
+        message38.setSpare((int) sixbit.getVal(4));  //备用
+        message38.setData(encoder.encode16bit(128));  //二进制数据
+        return message38;
+    }
+
 
     /*
      *
@@ -1986,14 +2116,30 @@ public class CommVdesMessageUtil {
                     OffshoreCommunicationMessage33 message33 = offshoreCommunicationMessage33(encoder);
                     jhdInfo.setOffshoreCommunicationMessage(message33);
                     break;
+                //34号报文
                 case 34:
                     OffshoreCommunicationMessage34 message34 = offshoreCommunicationMessage34(encoder);
                     jhdInfo.setOffshoreCommunicationMessage(message34);
                     break;
-                //33号报文
+                //35号报文
                 case 35:
                     OffshoreCommunicationMessage35 message35 = offshoreCommunicationMessage35(encoder);
                     jhdInfo.setOffshoreCommunicationMessage(message35);
+                    break;
+                //36号报文
+                case 36:
+                    OffshoreCommunicationMessage36 message36 = offshoreCommunicationMessage36(encoder);
+                    jhdInfo.setOffshoreCommunicationMessage(message36);
+                    break;
+                //37号报文
+                case 37:
+                    OffshoreCommunicationMessage37 message37 = offshoreCommunicationMessage37(encoder);
+                    jhdInfo.setOffshoreCommunicationMessage(message37);
+                    break;
+                //38号报文
+                case 38:
+                    OffshoreCommunicationMessage38 message38 = offshoreCommunicationMessage38(encoder);
+                    jhdInfo.setOffshoreCommunicationMessage(message38);
                     break;
                 //其他
                 default:
