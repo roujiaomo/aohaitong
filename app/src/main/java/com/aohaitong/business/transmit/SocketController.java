@@ -189,7 +189,6 @@ public class SocketController {
                 mDataInputStream = new DataInputStream(new BufferedInputStream(
                         mInputString));
                 while (isRun) {
-                    Log.e("wwwwwwwwwwww", "socket接收线程运行");
                     if (mSocket == null || mDataInputStream == null) {
                         return;
                     }
@@ -214,9 +213,10 @@ public class SocketController {
         private void doTextReceive(DataInputStream dis) throws IOException {
             String msg;
             msg = dis.readLine();
-            Log.e("ooooo", "socket接收信息:" + msg);
-            if (msg == null)
+            if (msg == null) {
                 return;
+            }
+            Log.e("ooooo", "socket接收信息:" + msg);
             if (!TextUtils.isEmpty(msg.trim())) {
                 EventBus.getDefault().post(msg);
             }
