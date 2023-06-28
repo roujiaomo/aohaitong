@@ -21,8 +21,8 @@ public class IPAddress {
 //    public static String registerUrl = NET_IP + "/offshoredata-api/offshoreCommunicationData/registerAccount";//Long phoneNumber, String password
 //    public static String forgetPassword = NET_IP + "/offshoredata-api/offshoreCommunicationData/accountForgetPassword";//Long phoneNumber, String password
 
-//    public static String NET_IP = "http://59.46.138.229:9900";
-public static String NET_IP = "http://192.168.1.11:9900";
+    public static String NET_IP = "http://59.46.138.229:9900";
+    //public static String NET_IP = "http://192.168.1.11:9900";
     public static String mqAddress = "59.46.138.229:61616";
     public static String registerUrl = NET_IP + "/offshoredata-api/offshoreCommunicationData/registerAccount";//Long phoneNumber, String password
     public static String forgetPassword = NET_IP + "/offshoredata-api/offshoreCommunicationData/accountForgetPassword";//Long phoneNumber, String password

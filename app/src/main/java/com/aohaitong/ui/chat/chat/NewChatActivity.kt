@@ -796,6 +796,9 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                     convertGroupieList(cacheRvList)
                     section.update(msgGroupList)
                 }
+                if (pageNum == 0) {
+                    scrollToBottom()
+                }
             }
             StatusConstant.EVENT_CHAT_RECEIVE_USER_LOGIN_STATUS -> {
                 val friendBean = DBManager.getInstance(context).selectFriend(userTelephone)
