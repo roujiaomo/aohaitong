@@ -13,6 +13,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewTreeObserver
@@ -264,9 +265,9 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                         }
                         convertGroupieList(cacheRvList)
                         section.update(msgGroupList)
-                        if (pageNum == 0) {
+//                        if (pageNum == 0) {
                             scrollToBottom()
-                        }
+//                        }
                     }
                     is ErrorResource -> {
 
@@ -796,9 +797,9 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                     convertGroupieList(cacheRvList)
                     section.update(msgGroupList)
                 }
-                if (pageNum == 0) {
+//                if (pageNum == 0) {
                     scrollToBottom()
-                }
+//                }
             }
             StatusConstant.EVENT_CHAT_RECEIVE_USER_LOGIN_STATUS -> {
                 val friendBean = DBManager.getInstance(context).selectFriend(userTelephone)
@@ -1150,6 +1151,10 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     KeyBoardUtil.hideKeyBoard(this@NewChatActivity, recyclerView)
+                    val lm = layoutManager as (LinearLayoutManager)
+                    if (lm.findViewByPosition(lm.findFirstVisibleItemPosition())?.top == 0 && lm.findFirstVisibleItemPosition() == 0) {
+                        Log.e("qwer", "滑到了底部: ")
+                    }
                 }
             })
         }

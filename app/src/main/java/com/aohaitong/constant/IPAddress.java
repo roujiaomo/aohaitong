@@ -35,6 +35,7 @@ public class IPAddress {
         socketAddress = socketAddressValue;
     }
 
+
     public static String getMqAddress() {
         return mqAddress;
     }

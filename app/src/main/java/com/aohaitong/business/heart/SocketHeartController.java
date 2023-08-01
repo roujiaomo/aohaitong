@@ -6,13 +6,10 @@ import com.aohaitong.MyApplication;
 import com.aohaitong.bean.MsgEntity;
 import com.aohaitong.business.BaseController;
 import com.aohaitong.business.IPController;
-import com.aohaitong.business.transmit.BusinessController;
 import com.aohaitong.constant.CommonConstant;
-import com.aohaitong.constant.NumConstant;
 import com.aohaitong.constant.StatusConstant;
 import com.aohaitong.utils.DateUtil;
 import com.aohaitong.utils.ThreadPoolManager;
-import com.aohaitong.utils.offshore.util.CommVdesMessageUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -84,22 +81,40 @@ public class SocketHeartController {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MsgEntity entity) {
-        if (entity == null
-                || entity.getType() != StatusConstant.TYPE_HEART) {
-            return;
-        }
+//        if (entity == null
+//                || entity.getType() != StatusConstant.TYPE_HEART) {
+//            return;
+//        }
+//        latestTime = System.currentTimeMillis();
+//        try {
+//            long time = Long.parseLong(CommVdesMessageUtil.reslvToBHM(entity.getMsg()).getData().substring(0, 13));
+//            if (time > NumConstant.HEARTBEAT_COMPARE_TIME) {
+//                DateUtil.getInstance().setCurrentTime(time);
+//            } else {
+//                DateUtil.getInstance().setCurrentTime(latestTime);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        BusinessController.sendHeartMsgAnswer(null, entity.getMsg());
+
+        //        if (entity == null
+//                || entity.getType() != StatusConstant.TYPE_HEART) {
+//            return;
+//        }
         latestTime = System.currentTimeMillis();
-        try {
-            long time = Long.parseLong(CommVdesMessageUtil.reslvToBHM(entity.getMsg()).getData().substring(0, 13));
-            if (time > NumConstant.HEARTBEAT_COMPARE_TIME) {
-                DateUtil.getInstance().setCurrentTime(time);
-            } else {
-                DateUtil.getInstance().setCurrentTime(latestTime);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        BusinessController.sendHeartMsgAnswer(null, entity.getMsg());
+        DateUtil.getInstance().setCurrentTime(latestTime);
+//        try {
+//            long time = Long.parseLong(CommVdesMessageUtil.reslvToBHM(entity.getMsg()).getData().substring(0, 13));
+//            if (time > NumConstant.HEARTBEAT_COMPARE_TIME) {
+//                DateUtil.getInstance().setCurrentTime(time);
+//            } else {
+//                DateUtil.getInstance().setCurrentTime(latestTime);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        BusinessController.sendHeartMsgAnswer(null, entity.getMsg());
     }
 
 }
