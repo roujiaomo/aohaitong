@@ -16,7 +16,6 @@ import com.aohaitong.utils.NoDoubleClickListener;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
-import cn.feng.skin.manager.loader.SkinManager;
 
 public class ContactsAdapter extends BaseMultiItemQuickAdapter<ContactsLetterIndexModel, BaseViewHolder> {
 
@@ -41,8 +40,8 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<ContactsLetterInd
             if ((model.hasFriendApply == StatusConstant.TYPE_NOT_HAVE_APPLY && model.isFriend == StatusConstant.TYPE_IS_NOT_FRIEND) ||
                     (model.hasFriendApply == StatusConstant.TYPE_HAVE_APPLY && model.isFriend == StatusConstant.TYPE_IS_NOT_FRIEND &&
                             model.type == TYPE_PASS)) {
-                holder.getView(R.id.tv_add).setBackground(SkinManager.getInstance().getDrawable(R.drawable.blue_5));
-                ((TextView) holder.getView(R.id.tv_add)).setTextColor(SkinManager.getInstance().getColor(R.color.white));
+                holder.getView(R.id.tv_add).setBackground(mContext.getDrawable(R.drawable.blue_5));
+                ((TextView) holder.getView(R.id.tv_add)).setTextColor(mContext.getColor(R.color.white));
                 ((TextView) holder.getView(R.id.tv_add)).setText("添加");
                 holder.getView(R.id.tv_add).setOnClickListener(new NoDoubleClickListener() {
                     @Override
@@ -52,7 +51,7 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<ContactsLetterInd
                 });
             } else {
                 holder.getView(R.id.tv_add).setBackground(null);
-                ((TextView) holder.getView(R.id.tv_add)).setTextColor(SkinManager.getInstance().getColor(R.color.base_list_text_gray));
+                ((TextView) holder.getView(R.id.tv_add)).setTextColor(mContext.getColor(R.color.base_list_text_gray));
                 ((TextView) holder.getView(R.id.tv_add)).setText(model.isFriend == StatusConstant.TYPE_IS_NOT_FRIEND ? "已申请" : "已添加");
                 holder.getView(R.id.tv_add).setOnClickListener(new NoDoubleClickListener() {
                     @Override

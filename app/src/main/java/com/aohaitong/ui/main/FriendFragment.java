@@ -79,7 +79,7 @@ public class FriendFragment extends BaseFragment {
 
     @SuppressLint("SetTextI18n")
     private void checkUnReadItems() {
-        int size = DBManager.getInstance(getActivity()).selectFriendApplyCount();
+        int size = DBManager.getInstance(this.getActivity()).selectFriendApplyCount();
         if (size == 0) {
             unReadImg.setVisibility(View.GONE);
             unReadTv.setVisibility(View.GONE);
@@ -96,10 +96,6 @@ public class FriendFragment extends BaseFragment {
         doLoadData();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     private void doLoadData() {
         checkUnReadItems();

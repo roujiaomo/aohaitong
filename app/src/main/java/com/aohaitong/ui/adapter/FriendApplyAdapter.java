@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aohaitong.R;
@@ -22,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import cn.feng.skin.manager.loader.SkinManager;
 
 public class FriendApplyAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private final List<FriendApplyBean> data;
@@ -68,7 +68,7 @@ public class FriendApplyAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             tvDes.setVisibility(View.VISIBLE);
         });
         if (data.get(position).getType() == StatusConstant.TYPE_UN_PASS && data.get(position).getSendType() == StatusConstant.SEND_TYPE_RECEIVER) {
-            holder.getView(R.id.tv_add).setBackground(SkinManager.getInstance().getDrawable(R.drawable.blue_5));
+            holder.getView(R.id.tv_add).setBackground(ContextCompat.getDrawable(context, R.drawable.blue_5));
             ((TextView) holder.getView(R.id.tv_add)).setTextColor(Color.WHITE);
             ((TextView) holder.getView(R.id.tv_add)).setText("同意");
             holder.getView(R.id.tv_add).setOnClickListener(new NoDoubleClickListener() {
@@ -80,7 +80,7 @@ public class FriendApplyAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         } else {
             holder.getView(R.id.tv_add).setBackground(null);
             ((TextView) holder.getView(R.id.tv_add)).setText(data.get(position).getType() == StatusConstant.TYPE_UN_PASS ? "等待中" : data.get(position).getType() == StatusConstant.TYPE_FORBIDDEN ? "被拒绝" : "已通过");
-            ((TextView) holder.getView(R.id.tv_add)).setTextColor(SkinManager.getInstance().getColor(R.color.base_list_text_gray));
+            ((TextView) holder.getView(R.id.tv_add)).setTextColor(ContextCompat.getColor(context, R.color.base_list_text_gray));
             holder.getView(R.id.tv_add).setOnClickListener(new NoDoubleClickListener() {
                 @Override
                 protected void onNoDoubleClick(View v) {

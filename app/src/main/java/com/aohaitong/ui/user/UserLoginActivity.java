@@ -50,8 +50,6 @@ import com.lxj.xpopup.util.XPopupUtils;
 
 import java.util.List;
 
-import cn.feng.skin.manager.loader.SkinManager;
-
 //用户登录注册页面
 public class UserLoginActivity extends BaseActivity {
     private Button loginBtn;
@@ -475,14 +473,14 @@ public class UserLoginActivity extends BaseActivity {
                 Log.e(CommonConstant.LOGCAT_TAG, "MQ登录失败：" + reason);
                 loadingDialog.dismiss();
                 MyApplication.isHaveLogin = true;
-                MyQmuiDialog.showErrorDialog((Activity) context, reason);
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        BaseController.logOut();
-                    }
-                }.start();
+//                MyQmuiDialog.showErrorDialog((Activity) context, reason);
+//                new Thread() {
+//                    @Override
+//                    public void run() {
+//                        super.run();
+//                        BaseController.logOut();
+//                    }
+//                }.start();
             }
         }, NumConstant.getJHDNum());
     }
@@ -493,10 +491,10 @@ public class UserLoginActivity extends BaseActivity {
      */
     private void initLoginView() {
         titleTv.setText(getResources().getString(R.string.login));
-        loginTv.setTextColor(SkinManager.getInstance().getColor(R.color.blue_base));
+        loginTv.setTextColor(getColor(R.color.blue_base));
         loginTv.setTextSize(16);
         loginTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        registerTv.setTextColor(SkinManager.getInstance().getColor(R.color.black));
+        registerTv.setTextColor(getColor(R.color.black));
         registerTv.setTextSize(14);
         registerTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         loginBtn.setText(getResources().getString(R.string.login_now));
@@ -513,10 +511,10 @@ public class UserLoginActivity extends BaseActivity {
      */
     private void initRegisterView() {
         titleTv.setText(getResources().getString(R.string.register));
-        registerTv.setTextColor(SkinManager.getInstance().getColor(R.color.blue_base));
+        registerTv.setTextColor(getColor(R.color.blue_base));
         registerTv.setTextSize(16);
         registerTv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        loginTv.setTextColor(SkinManager.getInstance().getColor(R.color.black));
+        loginTv.setTextColor(getColor(R.color.black));
         loginTv.setTextSize(14);
         loginTv.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         loginBtn.setText(getResources().getString(R.string.register_now));

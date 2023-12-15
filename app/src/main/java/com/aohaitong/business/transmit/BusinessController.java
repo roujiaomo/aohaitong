@@ -50,6 +50,8 @@ import com.aohaitong.utils.offshore.util.JhdAnalysisGroupUtil;
 import com.aohaitong.utils.offshore.util.JhdAnalysisUtil;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +70,19 @@ public class BusinessController {
         o.setDestinationAccount(MyApplication.TEL);
     }
 
+    private static void setDefault24Msg(OffshoreCommunicationAccountMessage o, ChatMsgBean chatMsgBean) {
+        String format = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String date = sdf.format(new Date(Long.parseLong(chatMsgBean.getTime())));
+        o.setYear(Integer.parseInt(date.split("-")[0]));
+        o.setMonth(Integer.parseInt(date.split("-")[1]));
+        o.setDay(Integer.parseInt(date.split("-")[2].split(" ")[0]));
+        o.setHour(Integer.parseInt(date.split(" ")[1].split(":")[0]));
+        o.setMinute(Integer.parseInt(date.split(" ")[1].split(":")[1]));
+        o.setSecond(Integer.parseInt(date.split(" ")[1].split(":")[2]));
+        o.setSourceAccount(MyApplication.TEL);
+        o.setDestinationAccount(MyApplication.TEL);
+    }
 
     /*===================================发送消息====================================*/
 
@@ -78,7 +93,7 @@ public class BusinessController {
         Log.e(CommonConstant.LOGCAT_TAG, "发送了24号消息: " + new Gson().toJson(chatMsgBean));
         int num = NumConstant.getJHDNum();
         OffshoreCommunicationMessage24 msg24 = new OffshoreCommunicationMessage24();
-        setDefaultMsg(msg24);
+        setDefault24Msg(msg24, chatMsgBean);
         msg24.setMsgId(StatusConstant.MSG_SEND_TEXT);
         msg24.setResFlag(StatusConstant.SEND_TYPE_SENDER);
         msg24.setData(chatMsgBean.getMsg());

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:skin="http://schemas.android.com/android/skin"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -178,7 +177,6 @@
         app:show_pop="true"
         app:text_color="@color/blue_base"
         app:text_selected_color="#FFFFFF"
-        app:text_size="14"
-        skin:enable="false" />
+        app:text_size="14" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

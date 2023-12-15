@@ -14,6 +14,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.aohaitong.MyApplication;
 import com.aohaitong.R;
@@ -38,10 +39,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.feng.skin.manager.loader.SkinManager;
 
-
-public abstract class BaseActivity extends cn.feng.skin.manager.base.BaseActivity {
+public abstract class BaseActivity extends FragmentActivity {
     protected Context context;
     protected String TAG;
     protected QMUITipDialog loadingDialog;
@@ -105,7 +104,7 @@ public abstract class BaseActivity extends cn.feng.skin.manager.base.BaseActivit
                 .setTipWord("正在请求")
                 .create();
         if (!getClass().getSimpleName().contains("NewLoadActivity")) {
-            StatusBarUtils.setColor(this, SkinManager.getInstance().getColor(R.color.blue_base));
+            StatusBarUtils.setColor(this, getColor(R.color.blue_base));
         }
         initView();
         initData();

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:skin="http://schemas.android.com/android/skin"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -153,7 +152,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_switch_input"
                 app:layout_constraintTop_toTopOf="parent"
-                skin:enable="false" />
+                />
 
             <ImageButton
                 android:id="@+id/btn_send"
@@ -165,8 +164,7 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                skin:enable="false" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/btn_chat_menu"
@@ -177,8 +175,7 @@
                 android:src="@drawable/ic_chat_menu"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                skin:enable="false" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.aohaitong.widget.RecordButton
                 android:id="@+id/btn_record"

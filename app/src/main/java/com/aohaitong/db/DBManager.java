@@ -143,12 +143,22 @@ public class DBManager {
         ChatMsgBeanDao myDao = daoSession.getChatMsgBeanDao();
         List<ChatMsgBean> beans = myDao.queryBuilder().where(ChatMsgBeanDao.Properties.Telephone.eq(telNum),
                 ChatMsgBeanDao.Properties.NowLoginTel.eq(MyApplication.TEL))
-                .offset(pageNum * CHAT_MSG_OFFSET).limit(CHAT_MSG_OFFSET)
                 .orderDesc(ChatMsgBeanDao.Properties.Time).list();
 
         Collections.reverse(beans);
         updateAll(telNum);
         return beans;
+//        DaoMaster daoMaster = new DaoMaster(getReadableDatabase());
+//        DaoSession daoSession = daoMaster.newSession();
+//        ChatMsgBeanDao myDao = daoSession.getChatMsgBeanDao();
+//        List<ChatMsgBean> beans = myDao.queryBuilder().where(ChatMsgBeanDao.Properties.Telephone.eq(telNum),
+//                ChatMsgBeanDao.Properties.NowLoginTel.eq(MyApplication.TEL))
+//                .offset(pageNum * CHAT_MSG_OFFSET).limit(CHAT_MSG_OFFSET)
+//                .orderDesc(ChatMsgBeanDao.Properties.Time).list();
+//
+//        Collections.reverse(beans);
+//        updateAll(telNum);
+//        return beans;
     }
 
 

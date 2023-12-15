@@ -25,14 +25,8 @@ import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.didichuxing.doraemonkit.DoKit;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import javax.jms.Session;
 
-import cn.feng.skin.manager.loader.SkinManager;
 import dagger.hilt.android.HiltAndroidApp;
 import xcrash.XCrash;
 
@@ -54,13 +48,6 @@ public class MyApplication extends Application implements Configuration.Provider
         context = this;
     }
 
-    /**
-     * Must call init first
-     */
-    private void initSkinLoader() {
-        SkinManager.getInstance().init(this);
-        SkinManager.getInstance().load();
-    }
 
     @Override
     public void onCreate() {
@@ -68,7 +55,6 @@ public class MyApplication extends Application implements Configuration.Provider
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
-        initSkinLoader();
 //        initBaiduMap();
         new DoKit.Builder(this).build();
         setForeground();
@@ -84,8 +70,6 @@ public class MyApplication extends Application implements Configuration.Provider
                 getAbsolutePath() + CommonConstant.CRASH_FILE_PATH);
 //        initCloudChannel(this);
         xcrash.XCrash.init(this, initParameters);
-        copyAssetAndWrite("dusk.skin");
-        copyAssetAndWrite("night.skin");
     }
 
     private void initBaiduMap() {
@@ -115,43 +99,6 @@ public class MyApplication extends Application implements Configuration.Provider
             }
         });
     }
-
-    /**
-     * 将asset文件写入缓存
-     */
-    private void copyAssetAndWrite(String fileName) {
-        try {
-            File cacheDir = getCacheDir();
-            if (!cacheDir.exists()) {
-                cacheDir.mkdirs();
-            }
-            File outFile = new File(cacheDir, fileName);
-            if (!outFile.exists()) {
-                boolean res = outFile.createNewFile();
-                if (!res) {
-                    return;
-                }
-            } else {
-                if (outFile.length() > 10) {//表示已经写入一次
-                    return;
-                }
-            }
-            InputStream is = getAssets().open(fileName);
-            FileOutputStream fos = new FileOutputStream(outFile);
-            byte[] buffer = new byte[1024];
-            int byteCount;
-            while ((byteCount = is.read(buffer)) != -1) {
-                fos.write(buffer, 0, byteCount);
-            }
-            fos.flush();
-            is.close();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
     public static Context getContext() {
         return context;

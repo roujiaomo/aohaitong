@@ -22,13 +22,12 @@ import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.aohaitong.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.feng.skin.manager.loader.SkinManager;
 
 /**
  * 字母选择指示器
@@ -245,7 +244,7 @@ public class LetterIndexView extends View {
         ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         textView.setLayoutParams(params);
         textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(SkinManager.getInstance().getColor(R.color.white));
+        textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
         textView.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics()));
         return textView;
     }

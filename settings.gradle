@@ -1,2 +1,2 @@
-include ':app',':android-skin-loader-lib',':weixinrecorded'
+include ':app',':weixinrecorded'
 rootProject.name = "aohaitong"

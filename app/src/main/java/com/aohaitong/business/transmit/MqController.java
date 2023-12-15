@@ -155,7 +155,7 @@ public class MqController {
             }
             Log.d(CommonConstant.LOGCAT_TAG, "开始MQ连接");
             String url = "failover:" + "(tcp://" + IPController.getIp() + ":" + IPController.PORT + ")";
-            connfactory = new ActiveMQConnectionFactory(url);
+            connfactory = new ActiveMQConnectionFactory("admin", "admin", url);
             Log.d(CommonConstant.LOGCAT_TAG, "connfactory = new ActiveMQConnectionFactory(url)");
             conn = (ActiveMQConnection) connfactory.createConnection();//获取连接
             Log.d(CommonConstant.LOGCAT_TAG, "connfactory.createConnection()");
