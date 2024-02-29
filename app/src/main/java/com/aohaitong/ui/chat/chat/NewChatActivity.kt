@@ -968,7 +968,7 @@ class NewChatActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener,
                             GlideEngine.getInstance()
                         )
                             .setCount(1) //设置最多选择一张
-                            .setVideo(VersionUtil.isTestVersion()) //设置显示视频
+                            .setVideo(true) //设置显示视频
                             .setCameraLocation(0)
                             .setPuzzleMenu(false) //不显示拼图按钮
                             .setFileProviderAuthority(PROVIDER_STRING)
